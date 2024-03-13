@@ -1,6 +1,7 @@
 import './style.scss';
 import tpl from './miniAppList.html';
 import { uuid, closest } from '@native/utils/util';
+import { AppManager } from '@native/core/appManager/appManager';
 
 const appList = [
   {
@@ -37,6 +38,7 @@ export class MiniAppList {
     this.el.innerHTML = tpl;
     this.createAppList();
     this.bindReturnEvent();
+    this.bindOpenMiniApp();
   }
 
   createAppList() {
@@ -64,5 +66,44 @@ export class MiniAppList {
     backBtn.onclick = () => {
       this.parent.popView();
     };
+  }
+
+  bindOpenMiniApp() {
+    const appList = this.el.querySelector('.weixin-app__mini-used-list');
+
+    appList.onclick = (e) => {
+      const app = closest(e.target, 'weixin-app__mini-used-list-item');
+
+      if (!app) {
+        return;
+      }
+
+      const appId = app.getAttribute('data-appid');
+      const appInfo = this.appInfoByAppId(appId);
+
+      if (!appInfo) {
+        return;
+      }
+      AppManager.openApp(
+        {
+          appId,
+          path: appInfo.path,
+          scene: 1001,
+        },
+        this.parent
+      );
+    };
+  }
+
+  onPresentIn() {
+    console.log('小程序列表: onPresentIn');
+  }
+
+  onPresentOut() {
+    console.log('小程序列表: onPresentOut');
+  }
+
+  appInfoByAppId(appId) {
+    return appList.find((appInfo) => appInfo.appId === appId) || null;
   }
 }

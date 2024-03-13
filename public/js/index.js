@@ -1,6 +1,102 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/core/appManager/appManager.js":
+/*!*******************************************!*\
+  !*** ./src/core/appManager/appManager.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AppManager: () => (/* binding */ AppManager)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/asyncToGenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/classCallCheck */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/createClass */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs3/regenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _native_services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @native/services */ "./src/services/index.js");
+/* harmony import */ var _native_core_miniAppSandbox_miniAppSandbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @native/core/miniAppSandbox/miniAppSandbox */ "./src/core/miniAppSandbox/miniAppSandbox.js");
+
+
+
+
+
+
+
+
+var AppManager = /*#__PURE__*/function () {
+  function AppManager() {
+    (0,_babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, AppManager);
+  }
+  (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(AppManager, null, [{
+    key: "openApp",
+    value: function () {
+      var _openApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().mark(function _callee(opts, wx) {
+        var appId, path, scene, _queryPath, pagePath, query, _yield$getMiniAppInfo, appName, logo, miniApp;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              appId = opts.appId, path = opts.path, scene = opts.scene;
+              _queryPath = (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_5__.queryPath)(path), pagePath = _queryPath.pagePath, query = _queryPath.query;
+              _context.next = 4;
+              return (0,_native_services__WEBPACK_IMPORTED_MODULE_6__.getMiniAppInfo)(appId);
+            case 4:
+              _yield$getMiniAppInfo = _context.sent;
+              appName = _yield$getMiniAppInfo.appName;
+              logo = _yield$getMiniAppInfo.logo;
+              // 小程序容器实例
+              miniApp = new _native_core_miniAppSandbox_miniAppSandbox__WEBPACK_IMPORTED_MODULE_7__.MiniAppSandbox({
+                appId: appId,
+                scene: scene,
+                logo: logo,
+                appName: appName,
+                pagePath: pagePath,
+                query: query
+              });
+              AppManager.appStack.push(miniApp);
+              wx.presentView(miniApp);
+            case 10:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }));
+      function openApp(_x, _x2) {
+        return _openApp.apply(this, arguments);
+      }
+      return openApp;
+    }()
+  }, {
+    key: "closeApp",
+    value: function () {
+      var _closeApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().mark(function _callee2(miniApp) {
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              miniApp.parent.dismissView();
+            case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }));
+      function closeApp(_x3) {
+        return _closeApp.apply(this, arguments);
+      }
+      return closeApp;
+    }()
+  }]);
+  return AppManager;
+}();
+(0,_babel_runtime_corejs3_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(AppManager, "appStack", []);
+
+/***/ }),
+
 /***/ "./src/core/application/application.js":
 /*!*********************************************!*\
   !*** ./src/core/application/application.js ***!
@@ -159,6 +255,117 @@ var Application = /*#__PURE__*/function () {
       }
       return popView;
     }()
+  }, {
+    key: "presentView",
+    value: function () {
+      var _presentView = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee3(view, useCache) {
+        var preView;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              if (this.done) {
+                _context3.next = 2;
+                break;
+              }
+              return _context3.abrupt("return");
+            case 2:
+              this.done = false;
+              preView = this.views[this.views.length - 1];
+              view.parent = this;
+              view.el.style.zIndex = this.views.length + 1;
+              view.el.classList.add('wx-native-view--before-present');
+              view.el.classList.add('wx-native-view--enter-anima');
+              preView.el.classList.add('wx-native-view--before-presenting');
+              preView.el.classList.remove('wx-native-view--instage');
+              preView.el.classList.add('wx-native-view--enter-anima');
+              preView.onPresentOut && preView.onPresentOut();
+              view.onPresentIn && view.onPresentIn();
+              !useCache && this.el.appendChild(view.el);
+              this.views.push(view);
+              !useCache && view.viewDidLoad && view.viewDidLoad();
+              _context3.next = 18;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_5__.sleep)(20);
+            case 18:
+              preView.el.classList.add('wx-native-view--presenting');
+              view.el.classList.add('wx-native-view--instage');
+              _context3.next = 22;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_5__.sleep)(540);
+            case 22:
+              this.done = true;
+              view.el.classList.remove('wx-native-view--before-present');
+              view.el.classList.remove('wx-native-view--enter-anima');
+              preView.el.classList.remove('wx-native-view--enter-anima');
+              preView.el.classList.remove('wx-native-view--before-presenting');
+            case 27:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, this);
+      }));
+      function presentView(_x2, _x3) {
+        return _presentView.apply(this, arguments);
+      }
+      return presentView;
+    }()
+  }, {
+    key: "dismissView",
+    value: function () {
+      var _dismissView = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee4() {
+        var opts,
+          preView,
+          currentView,
+          _opts$destroy,
+          destroy,
+          _args4 = arguments;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              opts = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : {};
+              if (this.done) {
+                _context4.next = 3;
+                break;
+              }
+              return _context4.abrupt("return");
+            case 3:
+              this.done = false;
+              preView = this.views[this.views.length - 2];
+              currentView = this.views[this.views.length - 1];
+              _opts$destroy = opts.destroy, destroy = _opts$destroy === void 0 ? true : _opts$destroy;
+              currentView.el.classList.add('wx-native-view--enter-anima');
+              preView.el.classList.add('wx-native-view--enter-anima');
+              preView.el.classList.add('wx-native-view--before-presenting');
+              _context4.next = 12;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_5__.sleep)(0);
+            case 12:
+              currentView.el.classList.add('wx-native-view--before-present');
+              currentView.el.classList.remove('wx-native-view--instage');
+              preView.el.classList.remove('wx-native-view--presenting');
+              preView.onPresentIn && preView.onPresentIn();
+              currentView.onPresentOut && currentView.onPresentOut();
+              _context4.next = 19;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_5__.sleep)(540);
+            case 19:
+              this.done = true;
+              destroy && this.el.removeChild(currentView.el);
+              this.views.pop();
+              preView.el.classList.remove('wx-native-view--enter-anima');
+              preView.el.classList.remove('wx-native-view--before-presenting');
+            case 24:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, this);
+      }));
+      function dismissView() {
+        return _dismissView.apply(this, arguments);
+      }
+      return dismissView;
+    }()
+  }, {
+    key: "updateStatusBarColor",
+    value: function updateStatusBarColor(color) {
+      this.parent.updateDeviceBarColor && this.parent.updateDeviceBarColor(color);
+    }
   }]);
   return Application;
 }();
@@ -226,6 +433,97 @@ var Device = /*#__PURE__*/function () {
     }
   }]);
   return Device;
+}();
+
+/***/ }),
+
+/***/ "./src/core/miniAppSandbox/miniAppSandbox.js":
+/*!***************************************************!*\
+  !*** ./src/core/miniAppSandbox/miniAppSandbox.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MiniAppSandbox: () => (/* binding */ MiniAppSandbox)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/classCallCheck */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/createClass */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/createClass.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/core/miniAppSandbox/style.scss");
+/* harmony import */ var _tpl_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tpl.html */ "./src/core/miniAppSandbox/tpl.html");
+/* harmony import */ var _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @native/core/appManager/appManager */ "./src/core/appManager/appManager.js");
+
+
+
+
+
+var MiniAppSandbox = /*#__PURE__*/function () {
+  function MiniAppSandbox(opts) {
+    (0,_babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, MiniAppSandbox);
+    this.appInfo = opts;
+    this.parent = null;
+    this.el = document.createElement('div');
+    this.el.classList.add('wx-native-view');
+  }
+  (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(MiniAppSandbox, [{
+    key: "viewDidLoad",
+    value: function viewDidLoad() {
+      this.initPageFrame();
+      this.showLaunchScreen();
+      this.bindCloseEvent();
+    }
+  }, {
+    key: "initPageFrame",
+    value: function initPageFrame() {
+      this.el.innerHTML = _tpl_html__WEBPACK_IMPORTED_MODULE_3__["default"];
+    }
+  }, {
+    key: "onPresentIn",
+    value: function onPresentIn() {
+      console.log('小程序容器: onPresentIn');
+    }
+  }, {
+    key: "onPresentOut",
+    value: function onPresentOut() {
+      console.log('小程序容器: onPresentOut');
+    }
+  }, {
+    key: "showLaunchScreen",
+    value: function showLaunchScreen() {
+      var launchScreen = this.el.querySelector('.wx-mini-app__launch-screen');
+      var name = this.el.querySelector('.wx-mini-app__name');
+      var logo = this.el.querySelector('.wx-mini-app__logo-img-url');
+      this.updateActionColorStyle('black');
+      name.innerHTML = this.appInfo.appName;
+      logo.src = this.appInfo.logo;
+      launchScreen.style.display = 'block';
+    }
+  }, {
+    key: "updateActionColorStyle",
+    value: function updateActionColorStyle(color) {
+      var action = this.el.querySelector('.wx-mini-app-navigation__actions');
+      if (color === 'white') {
+        action.classList.remove('wx-mini-app-navigation__actions--black');
+        action.classList.add('wx-mini-app-navigation__actions--white');
+      }
+      if (color === 'black') {
+        action.classList.remove('wx-mini-app-navigation__actions--white');
+        action.classList.add('wx-mini-app-navigation__actions--black');
+      }
+      this.parent.updateStatusBarColor(color);
+    }
+  }, {
+    key: "bindCloseEvent",
+    value: function bindCloseEvent() {
+      var _this = this;
+      var closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
+      closeBtn.onclick = function () {
+        _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_4__.AppManager.closeApp(_this);
+      };
+    }
+  }]);
+  return MiniAppSandbox;
 }();
 
 /***/ }),
@@ -305,9 +603,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_for_each__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_concat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/concat */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/concat.js");
 /* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_concat__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_concat__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style.scss */ "./src/pages/miniAppList/style.scss");
-/* harmony import */ var _miniAppList_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./miniAppList.html */ "./src/pages/miniAppList/miniAppList.html");
-/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/find */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./style.scss */ "./src/pages/miniAppList/style.scss");
+/* harmony import */ var _miniAppList_html__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./miniAppList.html */ "./src/pages/miniAppList/miniAppList.html");
+/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @native/core/appManager/appManager */ "./src/core/appManager/appManager.js");
+
+
 
 
 
@@ -334,7 +637,7 @@ var appList = [{
 var MiniAppList = /*#__PURE__*/function () {
   function MiniAppList() {
     (0,_babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, MiniAppList);
-    this.id = "ui_view".concat((0,_native_utils_util__WEBPACK_IMPORTED_MODULE_6__.uuid)());
+    this.id = "ui_view".concat((0,_native_utils_util__WEBPACK_IMPORTED_MODULE_7__.uuid)());
     this.parent = null;
     this.el = document.createElement('div');
     this.el.classList.add('wx-native-view');
@@ -342,9 +645,10 @@ var MiniAppList = /*#__PURE__*/function () {
   (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(MiniAppList, [{
     key: "viewDidLoad",
     value: function viewDidLoad() {
-      this.el.innerHTML = _miniAppList_html__WEBPACK_IMPORTED_MODULE_5__["default"];
+      this.el.innerHTML = _miniAppList_html__WEBPACK_IMPORTED_MODULE_6__["default"];
       this.createAppList();
       this.bindReturnEvent();
+      this.bindOpenMiniApp();
     }
   }, {
     key: "createAppList",
@@ -367,9 +671,86 @@ var MiniAppList = /*#__PURE__*/function () {
         _this.parent.popView();
       };
     }
+  }, {
+    key: "bindOpenMiniApp",
+    value: function bindOpenMiniApp() {
+      var _this2 = this;
+      var appList = this.el.querySelector('.weixin-app__mini-used-list');
+      appList.onclick = function (e) {
+        var app = (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_7__.closest)(e.target, 'weixin-app__mini-used-list-item');
+        if (!app) {
+          return;
+        }
+        var appId = app.getAttribute('data-appid');
+        var appInfo = _this2.appInfoByAppId(appId);
+        if (!appInfo) {
+          return;
+        }
+        _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_8__.AppManager.openApp({
+          appId: appId,
+          path: appInfo.path,
+          scene: 1001
+        }, _this2.parent);
+      };
+    }
+  }, {
+    key: "onPresentIn",
+    value: function onPresentIn() {
+      console.log('小程序列表: onPresentIn');
+    }
+  }, {
+    key: "onPresentOut",
+    value: function onPresentOut() {
+      console.log('小程序列表: onPresentOut');
+    }
+  }, {
+    key: "appInfoByAppId",
+    value: function appInfoByAppId(appId) {
+      return _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4___default()(appList).call(appList, function (appInfo) {
+        return appInfo.appId === appId;
+      }) || null;
+    }
   }]);
   return MiniAppList;
 }();
+
+/***/ }),
+
+/***/ "./src/services/index.js":
+/*!*******************************!*\
+  !*** ./src/services/index.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getMiniAppInfo: () => (/* binding */ getMiniAppInfo)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/promise */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/promise.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0__);
+
+var appInfo = {
+  douyin: {
+    appName: '抖音',
+    logo: 'https://img.zcool.cn/community/0173a75b29b349a80121bbec24c9fd.jpg@1280w_1l_2o_100sh.jpg'
+  },
+  meituan: {
+    appName: '美团',
+    logo: 'https://s3plus.meituan.net/v1/mss_e2821d7f0cfe4ac1bf9202ecf9590e67/cdn-prod/file:9528bfdf/20201023%E7%94%A8%E6%88%B7%E6%9C%8D%E5%8A%A1logo/%E7%BE%8E%E5%9B%A2app.png'
+  },
+  jingdong: {
+    appName: '京东',
+    logo: 'https://ts1.cn.mm.bing.net/th/id/R-C.8e130498abf4685d15ecb977869a5a39?rik=%2f%2bLRdQM48y8y0A&riu=http%3a%2f%2fwww.xiue.cc%2fwp-content%2fuploads%2f2017%2f09%2fjd.jpg&ehk=hUzDTV9xjw%2flaGD5eZcKGl%2fN7UkzBSHRjo73I%2bMeVvo%3d&risl=&pid=ImgRaw&r=0'
+  }
+};
+
+// 模拟调用微信开放平台接口，获取应用信息
+function getMiniAppInfo(appId) {
+  return new (_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0___default())(function (resolve) {
+    resolve(appInfo[appId]);
+  });
+}
 
 /***/ }),
 
@@ -461,6 +842,24 @@ var code = "<div id=\"iphone\">\n  <div class=\"iphone__device\"></div>\n  <div 
 
 /***/ }),
 
+/***/ "./src/core/miniAppSandbox/tpl.html":
+/*!******************************************!*\
+  !*** ./src/core/miniAppSandbox/tpl.html ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"wx-mini-app\">\n\t<!-- 右上方药丸按钮 -->\n\t<ul class=\"wx-mini-app-navigation__actions\">\n\t\t<li class=\"wx-mini-app-navigation__actions-variable\"></li>\n\t\t<li class=\"wx-mini-app-navigation__actions-close\"></li>\n\t</ul>\n\n\t<!-- webview挂载节点 -->\n\t<div class=\"wx-mini-app__webviews\"></div>\n\n\t<!-- 启动loading页面 -->\n\t<div class=\"wx-mini-app__launch-screen\">\n\t\t<div class=\"wx-mini-app__launch-screen-content\">\n\t\t\t<div class=\"wx-mini-app__logo\">\n\t\t\t\t<div class=\"wx-mini-app__logo-img\">\n\t\t\t\t\t<img class=\"wx-mini-app__logo-img-url\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"wx-mini-app__logo-circle\"></div>\n\t\t\t\t<span class=\"wx-mini-app__green-point\"></span>\n\t\t\t</div>\n\t\t\t<h1 class=\"wx-mini-app__name\"></h1>\n\t\t</div>\n\t</div>\n</div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ "./src/pages/home/Home.html":
 /*!**********************************!*\
   !*** ./src/pages/home/Home.html ***!
@@ -523,6 +922,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/core/miniAppSandbox/style.scss":
+/*!********************************************!*\
+  !*** ./src/core/miniAppSandbox/style.scss ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./src/pages/home/home.scss":
 /*!**********************************!*\
   !*** ./src/pages/home/home.scss ***!
@@ -569,6 +981,16 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 module.exports = __webpack_require__(/*! core-js-pure/stable/instance/concat */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/stable/instance/concat.js");
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js":
+/*!******************************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js ***!
+  \******************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__(/*! core-js-pure/stable/instance/find */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/stable/instance/find.js");
 
 /***/ }),
 
@@ -1176,6 +1598,22 @@ module.exports = getBuiltInPrototypeMethod('Array', 'concat');
 
 /***/ }),
 
+/***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/array/virtual/find.js":
+/*!***************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/array/virtual/find.js ***!
+  \***************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+__webpack_require__(/*! ../../../modules/es.array.find */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/modules/es.array.find.js");
+var getBuiltInPrototypeMethod = __webpack_require__(/*! ../../../internals/get-built-in-prototype-method */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/internals/get-built-in-prototype-method.js");
+
+module.exports = getBuiltInPrototypeMethod('Array', 'find');
+
+
+/***/ }),
+
 /***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/array/virtual/for-each.js":
 /*!*******************************************************************************************************!*\
   !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/array/virtual/for-each.js ***!
@@ -1256,6 +1694,27 @@ var ArrayPrototype = Array.prototype;
 module.exports = function (it) {
   var own = it.concat;
   return it === ArrayPrototype || (isPrototypeOf(ArrayPrototype, it) && own === ArrayPrototype.concat) ? method : own;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/instance/find.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/instance/find.js ***!
+  \**********************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var isPrototypeOf = __webpack_require__(/*! ../../internals/object-is-prototype-of */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/internals/object-is-prototype-of.js");
+var method = __webpack_require__(/*! ../array/virtual/find */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/array/virtual/find.js");
+
+var ArrayPrototype = Array.prototype;
+
+module.exports = function (it) {
+  var own = it.find;
+  return it === ArrayPrototype || (isPrototypeOf(ArrayPrototype, it) && own === ArrayPrototype.find) ? method : own;
 };
 
 
@@ -6247,6 +6706,39 @@ $({ target: 'Array', proto: true, arity: 1, forced: FORCED }, {
 
 /***/ }),
 
+/***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/modules/es.array.find.js":
+/*!***************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/modules/es.array.find.js ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/internals/export.js");
+var $find = (__webpack_require__(/*! ../internals/array-iteration */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/internals/array-iteration.js").find);
+var addToUnscopables = __webpack_require__(/*! ../internals/add-to-unscopables */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/internals/add-to-unscopables.js");
+
+var FIND = 'find';
+var SKIPS_HOLES = true;
+
+// Shouldn't skip holes
+// eslint-disable-next-line es/no-array-prototype-find -- testing
+if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
+
+// `Array.prototype.find` method
+// https://tc39.es/ecma262/#sec-array.prototype.find
+$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+  find: function find(callbackfn /* , that = undefined */) {
+    return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables(FIND);
+
+
+/***/ }),
+
 /***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/modules/es.array.for-each.js":
 /*!*******************************************************************************************************!*\
   !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/modules/es.array.for-each.js ***!
@@ -8534,6 +9026,21 @@ module.exports = parent;
 
 /***/ }),
 
+/***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/stable/instance/find.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/stable/instance/find.js ***!
+  \**************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var parent = __webpack_require__(/*! ../../es/instance/find */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/es/instance/find.js");
+
+module.exports = parent;
+
+
+/***/ }),
+
 /***/ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/stable/instance/for-each.js":
 /*!******************************************************************************************************!*\
   !*** ./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/stable/instance/for-each.js ***!
@@ -8844,6 +9351,38 @@ function _createClass(Constructor, protoProps, staticProps) {
     writable: false
   });
   return Constructor;
+}
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js":
+/*!****************************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js ***!
+  \****************************************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _defineProperty)
+/* harmony export */ });
+/* harmony import */ var core_js_pure_features_object_define_property_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js-pure/features/object/define-property.js */ "./node_modules/.pnpm/core-js-pure@3.36.0/node_modules/core-js-pure/full/object/define-property.js");
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/toPropertyKey.js");
+
+
+function _defineProperty(obj, key, value) {
+  key = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
+  if (key in obj) {
+    core_js_pure_features_object_define_property_js__WEBPACK_IMPORTED_MODULE_1__(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
 }
 
 /***/ }),

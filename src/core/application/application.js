@@ -95,4 +95,68 @@ export class Application {
     this.window.removeChild(currentView.el);
     preView.el.classList.remove('wx-native-view--enter-anima');
   }
+
+  async presentView(view, useCache) {
+    if (!this.done) {
+      return;
+    }
+    this.done = false;
+
+    const preView = this.views[this.views.length - 1];
+
+    view.parent = this;
+    view.el.style.zIndex = this.views.length + 1;
+    view.el.classList.add('wx-native-view--before-present');
+    view.el.classList.add('wx-native-view--enter-anima');
+    preView.el.classList.add('wx-native-view--before-presenting');
+    preView.el.classList.remove('wx-native-view--instage');
+    preView.el.classList.add('wx-native-view--enter-anima');
+    preView.onPresentOut && preView.onPresentOut();
+    view.onPresentIn && view.onPresentIn();
+    !useCache && this.el.appendChild(view.el);
+    this.views.push(view);
+    !useCache && view.viewDidLoad && view.viewDidLoad();
+    await sleep(20);
+    preView.el.classList.add('wx-native-view--presenting');
+    view.el.classList.add('wx-native-view--instage');
+    await sleep(540);
+    this.done = true;
+    view.el.classList.remove('wx-native-view--before-present');
+    view.el.classList.remove('wx-native-view--enter-anima');
+    preView.el.classList.remove('wx-native-view--enter-anima');
+    preView.el.classList.remove('wx-native-view--before-presenting');
+  }
+
+  async dismissView(opts = {}) {
+    if (!this.done) {
+      return;
+    }
+    this.done = false;
+
+    const preView = this.views[this.views.length - 2];
+    const currentView = this.views[this.views.length - 1];
+    const { destroy = true } = opts;
+
+    currentView.el.classList.add('wx-native-view--enter-anima');
+    preView.el.classList.add('wx-native-view--enter-anima');
+    preView.el.classList.add('wx-native-view--before-presenting');
+    await sleep(0);
+    currentView.el.classList.add('wx-native-view--before-present');
+    currentView.el.classList.remove('wx-native-view--instage');
+    preView.el.classList.remove('wx-native-view--presenting');
+
+    preView.onPresentIn && preView.onPresentIn();
+    currentView.onPresentOut && currentView.onPresentOut();
+
+    await sleep(540);
+    this.done = true;
+    destroy && this.el.removeChild(currentView.el);
+    this.views.pop();
+    preView.el.classList.remove('wx-native-view--enter-anima');
+    preView.el.classList.remove('wx-native-view--before-presenting');
+  }
+
+  updateStatusBarColor(color) {
+    this.parent.updateDeviceBarColor && this.parent.updateDeviceBarColor(color);
+  }
 }
