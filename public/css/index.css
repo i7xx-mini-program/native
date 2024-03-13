@@ -10,5 +10,76 @@ body {
   font-size: 12px;
   font-weight: normal; }
 
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/.pnpm/css-loader@6.10.0_webpack@5.90.3/node_modules/css-loader/dist/cjs.js!./node_modules/.pnpm/postcss-loader@7.3.4_postcss@8.4.35_webpack@5.90.3/node_modules/postcss-loader/dist/cjs.js!./node_modules/.pnpm/sass-loader@13.3.3_node-sass@8.0.0_webpack@5.90.3/node_modules/sass-loader/dist/cjs.js!./src/core/device/device.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+#root {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  background: #1e1e1e; }
+
+#iphone {
+  height: 1298px;
+  width: 650px;
+  position: relative;
+  margin: 0px auto 0; }
+  #iphone .iphone__device {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background: url(../images/259ee15281cd8986710a.png) no-repeat;
+    background-size: 100% 100%;
+    pointer-events: none; }
+  #iphone .iphone__screen {
+    position: absolute;
+    z-index: 1;
+    left: 43.5px;
+    top: 40px;
+    width: 562.5px;
+    height: 1218px;
+    background-color: #fff;
+    overflow: hidden; }
+  #iphone .iphone__status-bar {
+    height: 66px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    pointer-events: none; }
+    #iphone .iphone__status-bar.iphone__status-bar--white {
+      background: url(../images/b444324f23fb59a3b1ac.png) no-repeat;
+      background-size: 100% 100%; }
+    #iphone .iphone__status-bar.iphone__status-bar--black {
+      background: url(../images/469a6e99e511ce761d83.png) no-repeat;
+      background-size: 100% 100%; }
+  #iphone .iphone__home-touch-bar {
+    position: absolute;
+    z-index: 100;
+    height: 51px;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+    #iphone .iphone__home-touch-bar.iphone__home-touch-bar--white {
+      background: url(../images/0a1a74aea3b35587f50f.png) no-repeat;
+      background-size: 100% 100%; }
+    #iphone .iphone__home-touch-bar.iphone__home-touch-bar--black {
+      background: url(../images/d99421072d8cdf04efe0.png) no-repeat;
+      background-size: 100% 100%; }
+  #iphone .iphone__apps {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0; }
+
 
 /*# sourceMappingURL=index.css.map*/
