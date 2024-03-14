@@ -3,6 +3,7 @@ import tpl from './tpl.html';
 import { readFile, mergePageConfig } from './util';
 import { AppManager } from '@native/core/appManager/appManager';
 import { Bridge } from '@native/core/bridge';
+import { JSCore } from '@native/core/jscore';
 
 export class MiniAppSandbox {
   constructor(opts) {
@@ -10,8 +11,12 @@ export class MiniAppSandbox {
     this.parent = null;
     this.appConfig = null;
     this.bridgeList = [];
+    this.jscore = new JSCore();
+    this.jscore.parent = this;
+
     this.el = document.createElement('div');
     this.el.classList.add('wx-native-view');
+    this.jscore.addEventListener('message', this.jscoreMessageHandler.bind(this));
   }
   viewDidLoad() {
     this.initPageFrame();
@@ -21,6 +26,14 @@ export class MiniAppSandbox {
   }
 
   async initApp() {
+    await this.jscore.init();
+    this.jscore.postMessage({
+      type: 'test',
+      body: {
+        message: '小程序容器消息',
+      },
+    });
+
     //TODO: 没有实现小程序云托管平台 所以使用本地资源
     // 1. 拉去小程序的资源
 
@@ -32,7 +45,9 @@ export class MiniAppSandbox {
     const entryPagePath = this.appInfo.pagePath || this.appConfig.app.entryPagePath;
     this.updateTargetPageColorStyle(entryPagePath);
     // 4. 创建通信桥 Bridge
-    const entryPageBridge = this.createBridge();
+    const entryPageBridge = this.createBridge({
+      jscore: this.jscore,
+    });
     this.bridgeList.push(entryPageBridge);
     // 5. 触发应用初始化逻辑
 
@@ -40,8 +55,8 @@ export class MiniAppSandbox {
     this.hiddenLaunchScreen();
   }
 
-  createBridge() {
-    const bridge = new Bridge({});
+  createBridge(opts) {
+    const bridge = new Bridge(opts);
     return bridge;
   }
 
@@ -96,6 +111,10 @@ export class MiniAppSandbox {
     }
 
     this.parent.updateStatusBarColor(color);
+  }
+
+  jscoreMessageHandler(msg) {
+    console.log('小程序容器接收逻辑线程到消息：', msg);
   }
 
   bindCloseEvent() {
