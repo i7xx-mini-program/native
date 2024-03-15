@@ -53,11 +53,12 @@ export class MiniAppSandbox {
     const entryPageBridge = await this.createBridge({
       jscore: this.jscore,
       isRoot: true,
+      appId: this.appInfo.appId,
       configInfo: mergePageConfig(this.appConfig.app, pageConfig),
     });
     this.bridgeList.push(entryPageBridge);
     // 5. 触发应用初始化逻辑
-
+    entryPageBridge.start();
     // 6. 隐藏初始化loading动画
     this.hiddenLaunchScreen();
   }

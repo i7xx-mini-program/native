@@ -411,15 +411,53 @@ var Bridge = /*#__PURE__*/function () {
     this.webView = null;
     this.jscore = opts.jscore;
     this.parent = null;
+    this.status = 0;
     this.jscore.addEventListener('message', _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4___default()(_context = this.jscoreMessageHandle).call(_context, this));
   }
   (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(Bridge, [{
     key: "jscoreMessageHandle",
-    value: function jscoreMessageHandle(msg) {}
+    value: function jscoreMessageHandle(msg) {
+      var type = msg.type,
+        body = msg.body;
+      if (body.bridgeId !== this.id) {
+        return;
+      }
+      switch (type) {
+        case 'logicResourceLoaded':
+          this.status++;
+          this.createApp();
+          break;
+      }
+    }
   }, {
     key: "UIMessageHandle",
     value: function UIMessageHandle(msg) {
-      console.log('原生层接收到渲染层的消息:', msg);
+      var type = msg.type;
+      switch (type) {
+        case 'uiResourceLoaded':
+          this.status++;
+          this.createApp();
+          break;
+      }
+    }
+  }, {
+    key: "start",
+    value: function start() {
+      // 通知渲染线程加载资源
+      this.webView.postMessage({
+        type: 'loadResource',
+        body: {
+          appId: this.opts.appId
+        }
+      });
+      // 通知逻辑线程加载资源
+      this.jscore.postMessage({
+        type: 'loadResource',
+        body: {
+          appId: this.opts.appId,
+          bridgeId: this.id
+        }
+      });
     }
   }, {
     key: "init",
@@ -460,6 +498,15 @@ var Bridge = /*#__PURE__*/function () {
         });
         _this.parent.webViewContainer.appendChild(webView.el);
       });
+    }
+  }, {
+    key: "createApp",
+    value: function createApp() {
+      if (this.status !== 2) {
+        return;
+      }
+      this.status = 0;
+      console.log('createApp');
     }
   }]);
   return Bridge;
@@ -714,16 +761,17 @@ var MiniAppSandbox = /*#__PURE__*/function () {
               return this.createBridge({
                 jscore: this.jscore,
                 isRoot: true,
+                appId: this.appInfo.appId,
                 configInfo: (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePageConfig)(this.appConfig.app, pageConfig)
               });
             case 15:
               entryPageBridge = _context2.sent;
               this.bridgeList.push(entryPageBridge);
               // 5. 触发应用初始化逻辑
-
+              entryPageBridge.start();
               // 6. 隐藏初始化loading动画
               this.hiddenLaunchScreen();
-            case 18:
+            case 19:
             case "end":
               return _context2.stop();
           }
