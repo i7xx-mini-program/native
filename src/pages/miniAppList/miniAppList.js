@@ -97,6 +97,7 @@ export class MiniAppList {
 
   onPresentIn() {
     console.log('小程序列表: onPresentIn');
+    this.parent.updateStatusBarColor('black');
   }
 
   onPresentOut() {

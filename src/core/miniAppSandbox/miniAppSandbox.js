@@ -1,6 +1,7 @@
 import './style.scss';
 import tpl from './tpl.html';
 import { readFile, mergePageConfig } from './util';
+import { sleep } from '@native/utils/util';
 import { AppManager } from '@native/core/appManager/appManager';
 import { Bridge } from '@native/core/bridge';
 import { JSCore } from '@native/core/jscore';
@@ -13,6 +14,7 @@ export class MiniAppSandbox {
     this.bridgeList = [];
     this.jscore = new JSCore();
     this.jscore.parent = this;
+    this.webViewContainer = null;
 
     this.el = document.createElement('div');
     this.el.classList.add('wx-native-view');
@@ -20,6 +22,7 @@ export class MiniAppSandbox {
   }
   viewDidLoad() {
     this.initPageFrame();
+    this.webViewContainer = this.el.querySelector('.wx-mini-app__webviews');
     this.showLaunchScreen();
     this.bindCloseEvent();
     this.initApp();
@@ -36,6 +39,7 @@ export class MiniAppSandbox {
 
     //TODO: 没有实现小程序云托管平台 所以使用本地资源
     // 1. 拉去小程序的资源
+    await sleep(1000);
 
     // 2. 读取配置文件
     const configPath = `${this.appInfo.appId}/config.json`;
@@ -45,8 +49,11 @@ export class MiniAppSandbox {
     const entryPagePath = this.appInfo.pagePath || this.appConfig.app.entryPagePath;
     this.updateTargetPageColorStyle(entryPagePath);
     // 4. 创建通信桥 Bridge
-    const entryPageBridge = this.createBridge({
+    const pageConfig = this.appConfig.modules[entryPagePath];
+    const entryPageBridge = await this.createBridge({
       jscore: this.jscore,
+      isRoot: true,
+      configInfo: mergePageConfig(this.appConfig.app, pageConfig),
     });
     this.bridgeList.push(entryPageBridge);
     // 5. 触发应用初始化逻辑
@@ -55,8 +62,10 @@ export class MiniAppSandbox {
     this.hiddenLaunchScreen();
   }
 
-  createBridge(opts) {
+  async createBridge(opts) {
     const bridge = new Bridge(opts);
+    bridge.parent = this;
+    await bridge.init();
     return bridge;
   }
 

@@ -383,11 +383,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Bridge: () => (/* binding */ Bridge)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/classCallCheck */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/createClass */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/createClass.js");
-/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/bind */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/bind.js");
-/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/asyncToGenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/classCallCheck */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/createClass */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs3/regenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/bind */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/bind.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/promise */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/promise.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _native_core_webview_webview__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @native/core/webview/webview */ "./src/core/webview/webview.js");
+
+
+
+
 
 
 
@@ -395,26 +405,61 @@ __webpack_require__.r(__webpack_exports__);
 var Bridge = /*#__PURE__*/function () {
   function Bridge(opts) {
     var _context;
-    (0,_babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, Bridge);
-    this.id = "bridge_".concat((0,_native_utils_util__WEBPACK_IMPORTED_MODULE_3__.uuid)());
+    (0,_babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, Bridge);
+    this.id = "bridge_".concat((0,_native_utils_util__WEBPACK_IMPORTED_MODULE_6__.uuid)());
+    this.opts = opts;
     this.webView = null;
     this.jscore = opts.jscore;
     this.parent = null;
-    this.jscore.addEventListener('message', _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_2___default()(_context = this.jscoreMessageHandle).call(_context, this));
-    this.jscore.postMessage({
-      type: 'test',
-      body: {
-        data: 'bridge 发送消息'
-      }
-    });
+    this.jscore.addEventListener('message', _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4___default()(_context = this.jscoreMessageHandle).call(_context, this));
   }
-  (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(Bridge, [{
-    key: "init",
-    value: function init() {}
-  }, {
+  (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(Bridge, [{
     key: "jscoreMessageHandle",
-    value: function jscoreMessageHandle(msg) {
-      console.log('bridge 接收到逻辑线程的消息：', msg);
+    value: function jscoreMessageHandle(msg) {}
+  }, {
+    key: "UIMessageHandle",
+    value: function UIMessageHandle(msg) {
+      console.log('原生层接收到渲染层的消息:', msg);
+    }
+  }, {
+    key: "init",
+    value: function () {
+      var _init = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee() {
+        var _context2;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return this.createWebView();
+            case 2:
+              this.webView = _context3.sent;
+              this.webView.addEventListener('message', _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4___default()(_context2 = this.UIMessageHandle).call(_context2, this));
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee, this);
+      }));
+      function init() {
+        return _init.apply(this, arguments);
+      }
+      return init;
+    }()
+  }, {
+    key: "createWebView",
+    value: function createWebView() {
+      var _this = this;
+      return new (_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_5___default())(function (resolve) {
+        var webView = new _native_core_webview_webview__WEBPACK_IMPORTED_MODULE_7__.WebView({
+          isRoot: _this.opts.isRoot,
+          configInfo: _this.opts.configInfo
+        });
+        webView.parent = _this;
+        webView.init(function () {
+          resolve(webView);
+        });
+        _this.parent.webViewContainer.appendChild(webView.el);
+      });
     }
   }]);
   return Bridge;
@@ -590,9 +635,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./style.scss */ "./src/core/miniAppSandbox/style.scss");
 /* harmony import */ var _tpl_html__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tpl.html */ "./src/core/miniAppSandbox/tpl.html");
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./util */ "./src/core/miniAppSandbox/util.js");
-/* harmony import */ var _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @native/core/appManager/appManager */ "./src/core/appManager/appManager.js");
-/* harmony import */ var _native_core_bridge__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @native/core/bridge */ "./src/core/bridge/index.js");
-/* harmony import */ var _native_core_jscore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @native/core/jscore */ "./src/core/jscore/index.js");
+/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @native/core/appManager/appManager */ "./src/core/appManager/appManager.js");
+/* harmony import */ var _native_core_bridge__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @native/core/bridge */ "./src/core/bridge/index.js");
+/* harmony import */ var _native_core_jscore__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @native/core/jscore */ "./src/core/jscore/index.js");
+
 
 
 
@@ -612,8 +659,9 @@ var MiniAppSandbox = /*#__PURE__*/function () {
     this.parent = null;
     this.appConfig = null;
     this.bridgeList = [];
-    this.jscore = new _native_core_jscore__WEBPACK_IMPORTED_MODULE_10__.JSCore();
+    this.jscore = new _native_core_jscore__WEBPACK_IMPORTED_MODULE_11__.JSCore();
     this.jscore.parent = this;
+    this.webViewContainer = null;
     this.el = document.createElement('div');
     this.el.classList.add('wx-native-view');
     this.jscore.addEventListener('message', _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4___default()(_context = this.jscoreMessageHandler).call(_context, this));
@@ -622,6 +670,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
     key: "viewDidLoad",
     value: function viewDidLoad() {
       this.initPageFrame();
+      this.webViewContainer = this.el.querySelector('.wx-mini-app__webviews');
       this.showLaunchScreen();
       this.bindCloseEvent();
       this.initApp();
@@ -630,7 +679,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
     key: "initApp",
     value: function () {
       var _initApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee() {
-        var configPath, configContent, entryPagePath, entryPageBridge;
+        var configPath, configContent, entryPagePath, pageConfig, entryPageBridge;
         return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -646,27 +695,35 @@ var MiniAppSandbox = /*#__PURE__*/function () {
 
               //TODO: 没有实现小程序云托管平台 所以使用本地资源
               // 1. 拉去小程序的资源
-
+              _context2.next = 5;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.sleep)(1000);
+            case 5:
               // 2. 读取配置文件
               configPath = "".concat(this.appInfo.appId, "/config.json");
-              _context2.next = 6;
+              _context2.next = 8;
               return (0,_util__WEBPACK_IMPORTED_MODULE_7__.readFile)(configPath);
-            case 6:
+            case 8:
               configContent = _context2.sent;
               this.appConfig = JSON.parse(configContent);
               // 3. 设置状态栏的颜色模式
               entryPagePath = this.appInfo.pagePath || this.appConfig.app.entryPagePath;
               this.updateTargetPageColorStyle(entryPagePath);
               // 4. 创建通信桥 Bridge
-              entryPageBridge = this.createBridge({
-                jscore: this.jscore
+              pageConfig = this.appConfig.modules[entryPagePath];
+              _context2.next = 15;
+              return this.createBridge({
+                jscore: this.jscore,
+                isRoot: true,
+                configInfo: (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePageConfig)(this.appConfig.app, pageConfig)
               });
+            case 15:
+              entryPageBridge = _context2.sent;
               this.bridgeList.push(entryPageBridge);
               // 5. 触发应用初始化逻辑
 
               // 6. 隐藏初始化loading动画
               this.hiddenLaunchScreen();
-            case 13:
+            case 18:
             case "end":
               return _context2.stop();
           }
@@ -679,10 +736,29 @@ var MiniAppSandbox = /*#__PURE__*/function () {
     }()
   }, {
     key: "createBridge",
-    value: function createBridge(opts) {
-      var bridge = new _native_core_bridge__WEBPACK_IMPORTED_MODULE_9__.Bridge(opts);
-      return bridge;
-    }
+    value: function () {
+      var _createBridge = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee2(opts) {
+        var bridge;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee2$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              bridge = new _native_core_bridge__WEBPACK_IMPORTED_MODULE_10__.Bridge(opts);
+              bridge.parent = this;
+              _context3.next = 4;
+              return bridge.init();
+            case 4:
+              return _context3.abrupt("return", bridge);
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee2, this);
+      }));
+      function createBridge(_x) {
+        return _createBridge.apply(this, arguments);
+      }
+      return createBridge;
+    }()
   }, {
     key: "initPageFrame",
     value: function initPageFrame() {
@@ -750,7 +826,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
       var _this = this;
       var closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
       closeBtn.onclick = function () {
-        _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_8__.AppManager.closeApp(_this);
+        _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_9__.AppManager.closeApp(_this);
       };
     }
   }]);
@@ -796,6 +872,131 @@ function mergePageConfig(appConfig, pageConfig) {
   result.navigationStyle = pagePrivateConfig.navigationStyle || appWindowConfig.navigationStyle || 'default';
   return result;
 }
+
+/***/ }),
+
+/***/ "./src/core/webview/webview.js":
+/*!*************************************!*\
+  !*** ./src/core/webview/webview.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   WebView: () => (/* binding */ WebView)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/asyncToGenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/classCallCheck */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/createClass */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/promise */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/promise.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs3/regenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! mitt */ "./node_modules/.pnpm/mitt@3.0.1/node_modules/mitt/dist/mitt.mjs");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./style.scss */ "./src/core/webview/style.scss");
+/* harmony import */ var _tpl_html__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tpl.html */ "./src/core/webview/tpl.html");
+/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+
+
+
+
+
+
+
+
+
+var WebView = /*#__PURE__*/function () {
+  function WebView(opts) {
+    (0,_babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, WebView);
+    this.opts = opts;
+    this.id = "webview_".concat((0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.uuid)());
+    this.el = document.createElement('div');
+    this.el.classList.add('wx-native-view');
+    this.el.innerHTML = _tpl_html__WEBPACK_IMPORTED_MODULE_7__["default"];
+    this.setInitialStyle();
+    this.iframe = this.el.querySelector('.wx-native-webview__window');
+    this.iframe.name = this.id;
+    this.event = new mitt__WEBPACK_IMPORTED_MODULE_5__["default"]();
+  }
+  (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(WebView, [{
+    key: "init",
+    value: function () {
+      var _init = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().mark(function _callee(callback) {
+        var _this = this;
+        var iframeWindow;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.frameLoaded();
+            case 2:
+              iframeWindow = window.frames[this.iframe.name];
+              iframeWindow.JSBridge.onReceiveUIMessage = function (msg) {
+                _this.event.emit('message', msg);
+              };
+              callback && callback();
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, this);
+      }));
+      function init(_x) {
+        return _init.apply(this, arguments);
+      }
+      return init;
+    }()
+  }, {
+    key: "addEventListener",
+    value: function addEventListener(type, handler) {
+      this.event.on(type, handler);
+    }
+  }, {
+    key: "postMessage",
+    value: function postMessage(msg) {
+      var iframeWindow = window.frames[this.iframe.name];
+      iframeWindow.JSBridge.onReceiveNativeMessage(msg);
+    }
+  }, {
+    key: "frameLoaded",
+    value: function frameLoaded() {
+      var _this2 = this;
+      return new (_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_3___default())(function (resolve) {
+        _this2.iframe.onload = function () {
+          resolve();
+        };
+      });
+    }
+  }, {
+    key: "setInitialStyle",
+    value: function setInitialStyle() {
+      var config = this.opts.configInfo;
+      var webview = this.el.querySelector('.wx-native-webview');
+      var pageName = this.el.querySelector('.wx-native-webview__navigation-title');
+      var navigationBar = this.el.querySelector('.wx-native-webview__navigation');
+      var leftBtn = this.el.querySelector('.wx-native-webview__navigation-left-btn');
+      var root = this.el.querySelector('.wx-native-webview__root');
+      if (this.opts.isRoot) {
+        leftBtn.style.display = 'none';
+      } else {
+        leftBtn.style.display = 'block';
+      }
+      if (config.navigationBarTextStyle === 'white') {
+        navigationBar.classList.add('wx-native-webview__navigation--white');
+      } else {
+        navigationBar.classList.add('wx-native-webview__navigation--black');
+      }
+      if (config.navigationStyle === 'custom') {
+        webview.classList.add('wx-native-webview--custom-nav');
+      }
+      root.style.backgroundColor = config.backgroundColor;
+      navigationBar.style.backgroundColor = config.navigationBarBackgroundColor;
+      pageName.innerText = config.navigationBarTitleText;
+    }
+  }]);
+  return WebView;
+}();
 
 /***/ }),
 
@@ -968,6 +1169,7 @@ var MiniAppList = /*#__PURE__*/function () {
     key: "onPresentIn",
     value: function onPresentIn() {
       console.log('小程序列表: onPresentIn');
+      this.parent.updateStatusBarColor('black');
     }
   }, {
     key: "onPresentOut",
@@ -1131,6 +1333,24 @@ var code = "<div class=\"wx-mini-app\">\n\t<!-- 右上方药丸按钮 -->\n\t<ul
 
 /***/ }),
 
+/***/ "./src/core/webview/tpl.html":
+/*!***********************************!*\
+  !*** ./src/core/webview/tpl.html ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"wx-native-webview\">\n  <!-- 导航区域 -->\n  <div class=\"wx-native-webview__navigation\">\n    <div class=\"wx-native-webview__navigation-content\">\n      <div class=\"wx-native-webview__navigation-left-btn\"></div>\n      <h2 class=\"wx-native-webview__navigation-title\"></h2>\n    </div>\n  </div>\n\n  <!-- iframe -->\n  <div class=\"wx-native-webview__body\">\n    <div class=\"wx-native-webview__root\">\n      <iframe\n        class=\"wx-native-webview__window\"\n        src=\"http://127.0.0.1:3077/page_frame/\"\n        frameborder=\"0\"\n      ></iframe>\n    </div>\n  </div>\n</div>\n";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ "./src/pages/home/Home.html":
 /*!**********************************!*\
   !*** ./src/pages/home/Home.html ***!
@@ -1197,6 +1417,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************************!*\
   !*** ./src/core/miniAppSandbox/style.scss ***!
   \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/core/webview/style.scss":
+/*!*************************************!*\
+  !*** ./src/core/webview/style.scss ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
