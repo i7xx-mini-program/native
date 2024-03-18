@@ -30,13 +30,6 @@ export class MiniAppSandbox {
 
   async initApp() {
     await this.jscore.init();
-    this.jscore.postMessage({
-      type: 'test',
-      body: {
-        message: '小程序容器消息',
-      },
-    });
-
     //TODO: 没有实现小程序云托管平台 所以使用本地资源
     // 1. 拉去小程序的资源
     await sleep(1000);
@@ -54,6 +47,9 @@ export class MiniAppSandbox {
       jscore: this.jscore,
       isRoot: true,
       appId: this.appInfo.appId,
+      pagePage: entryPagePath,
+      query: this.appInfo.query,
+      scene: this.appInfo.scene,
       configInfo: mergePageConfig(this.appConfig.app, pageConfig),
     });
     this.bridgeList.push(entryPageBridge);
@@ -75,11 +71,17 @@ export class MiniAppSandbox {
   }
 
   onPresentIn() {
-    console.log('小程序容器: onPresentIn');
+    const currentBridge = this.bridgeList[this.bridgeList.length - 1];
+    if (currentBridge) {
+      currentBridge.appShow();
+    }
   }
 
   onPresentOut() {
-    console.log('小程序容器: onPresentOut');
+    const currentBridge = this.bridgeList[this.bridgeList.length - 1];
+    if (currentBridge) {
+      currentBridge.appHide();
+    }
   }
 
   // 设置指定页面状态栏的颜色

@@ -54,6 +54,26 @@ export class Bridge {
     });
   }
 
+  appShow() {
+    if (this.status < 2) {
+      return;
+    }
+    this.jscore.postMessage({
+      type: 'appShow',
+      body: {},
+    });
+  }
+
+  appHide() {
+    if (this.status < 2) {
+      return;
+    }
+    this.jscore.postMessage({
+      type: 'appHide',
+      body: {},
+    });
+  }
+
   async init() {
     this.webView = await this.createWebView();
     this.webView.addEventListener('message', this.UIMessageHandle.bind(this));
@@ -77,7 +97,15 @@ export class Bridge {
     if (this.status !== 2) {
       return;
     }
-    this.status = 0;
-    console.log('createApp');
+    // 通知逻辑线程
+    this.jscore.postMessage({
+      type: 'createApp',
+      body: {
+        bridgeId: this.id,
+        scene: this.opts.scene,
+        pagePath: this.opts.pagePath,
+        query: this.opts.query,
+      },
+    });
   }
 }

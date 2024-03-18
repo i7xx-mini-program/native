@@ -16,11 +16,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs3_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/classCallCheck */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/classCallCheck.js");
 /* harmony import */ var _babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/createClass */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/createClass.js");
 /* harmony import */ var _babel_runtime_corejs3_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs3/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs3/regenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/regenerator/index.js");
-/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
-/* harmony import */ var _native_services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @native/services */ "./src/services/index.js");
-/* harmony import */ var _native_core_miniAppSandbox_miniAppSandbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @native/core/miniAppSandbox/miniAppSandbox */ "./src/core/miniAppSandbox/miniAppSandbox.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/instance/find */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/core-js-stable/instance/find.js");
+/* harmony import */ var _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime-corejs3/regenerator */ "./node_modules/.pnpm/@babel+runtime-corejs3@7.24.0/node_modules/@babel/runtime-corejs3/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _native_utils_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @native/utils/util */ "./src/utils/util.js");
+/* harmony import */ var _native_services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @native/services */ "./src/services/index.js");
+/* harmony import */ var _native_core_miniAppSandbox_miniAppSandbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @native/core/miniAppSandbox/miniAppSandbox */ "./src/core/miniAppSandbox/miniAppSandbox.js");
+
 
 
 
@@ -36,35 +39,40 @@ var AppManager = /*#__PURE__*/function () {
   (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(AppManager, null, [{
     key: "openApp",
     value: function () {
-      var _openApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().mark(function _callee(opts, wx) {
-        var appId, path, scene, _queryPath, pagePath, query, _yield$getMiniAppInfo, appName, logo, miniApp;
-        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().wrap(function _callee$(_context) {
+      var _openApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5___default().mark(function _callee(opts, wx) {
+        var appId, path, scene, _queryPath, pagePath, query, _yield$getMiniAppInfo, appName, logo, cacheApp, miniApp;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5___default().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               appId = opts.appId, path = opts.path, scene = opts.scene;
-              _queryPath = (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_5__.queryPath)(path), pagePath = _queryPath.pagePath, query = _queryPath.query;
+              _queryPath = (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_6__.queryPath)(path), pagePath = _queryPath.pagePath, query = _queryPath.query;
               _context.next = 4;
-              return (0,_native_services__WEBPACK_IMPORTED_MODULE_6__.getMiniAppInfo)(appId);
+              return (0,_native_services__WEBPACK_IMPORTED_MODULE_7__.getMiniAppInfo)(appId);
             case 4:
               _yield$getMiniAppInfo = _context.sent;
               appName = _yield$getMiniAppInfo.appName;
               logo = _yield$getMiniAppInfo.logo;
-              // 小程序容器实例
-              miniApp = new _native_core_miniAppSandbox_miniAppSandbox__WEBPACK_IMPORTED_MODULE_7__.MiniAppSandbox({
-                appId: appId,
-                scene: scene,
-                logo: logo,
-                appName: appName,
-                pagePath: pagePath,
-                query: query
-              });
-              AppManager.appStack.push(miniApp);
-              wx.presentView(miniApp);
-            case 10:
+              cacheApp = this.getAppById(appId);
+              if (cacheApp) {
+                wx.presentView(cacheApp, true);
+              } else {
+                // 小程序容器实例
+                miniApp = new _native_core_miniAppSandbox_miniAppSandbox__WEBPACK_IMPORTED_MODULE_8__.MiniAppSandbox({
+                  appId: appId,
+                  scene: scene,
+                  logo: logo,
+                  appName: appName,
+                  pagePath: pagePath,
+                  query: query
+                });
+                AppManager.appStack.push(miniApp);
+                wx.presentView(miniApp, false);
+              }
+            case 9:
             case "end":
               return _context.stop();
           }
-        }, _callee);
+        }, _callee, this);
       }));
       function openApp(_x, _x2) {
         return _openApp.apply(this, arguments);
@@ -72,16 +80,26 @@ var AppManager = /*#__PURE__*/function () {
       return openApp;
     }()
   }, {
+    key: "getAppById",
+    value: function getAppById(appId) {
+      var _context2;
+      return _babel_runtime_corejs3_core_js_stable_instance_find__WEBPACK_IMPORTED_MODULE_4___default()(_context2 = this.appStack).call(_context2, function (app) {
+        return app.appInfo.appId === appId;
+      });
+    }
+  }, {
     key: "closeApp",
     value: function () {
-      var _closeApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().mark(function _callee2(miniApp) {
-        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_4___default().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+      var _closeApp = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5___default().mark(function _callee2(miniApp) {
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_5___default().wrap(function _callee2$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              miniApp.parent.dismissView();
+              miniApp.parent.dismissView({
+                destroy: false
+              });
             case 1:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }, _callee2);
       }));
@@ -460,6 +478,28 @@ var Bridge = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "appShow",
+    value: function appShow() {
+      if (this.status < 2) {
+        return;
+      }
+      this.jscore.postMessage({
+        type: 'appShow',
+        body: {}
+      });
+    }
+  }, {
+    key: "appHide",
+    value: function appHide() {
+      if (this.status < 2) {
+        return;
+      }
+      this.jscore.postMessage({
+        type: 'appHide',
+        body: {}
+      });
+    }
+  }, {
     key: "init",
     value: function () {
       var _init = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee() {
@@ -505,8 +545,16 @@ var Bridge = /*#__PURE__*/function () {
       if (this.status !== 2) {
         return;
       }
-      this.status = 0;
-      console.log('createApp');
+      // 通知逻辑线程
+      this.jscore.postMessage({
+        type: 'createApp',
+        body: {
+          bridgeId: this.id,
+          scene: this.opts.scene,
+          pagePath: this.opts.pagePath,
+          query: this.opts.query
+        }
+      });
     }
   }]);
   return Bridge;
@@ -733,23 +781,14 @@ var MiniAppSandbox = /*#__PURE__*/function () {
               _context2.next = 2;
               return this.jscore.init();
             case 2:
-              this.jscore.postMessage({
-                type: 'test',
-                body: {
-                  message: '小程序容器消息'
-                }
-              });
-
-              //TODO: 没有实现小程序云托管平台 所以使用本地资源
-              // 1. 拉去小程序的资源
-              _context2.next = 5;
+              _context2.next = 4;
               return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.sleep)(1000);
-            case 5:
+            case 4:
               // 2. 读取配置文件
               configPath = "".concat(this.appInfo.appId, "/config.json");
-              _context2.next = 8;
+              _context2.next = 7;
               return (0,_util__WEBPACK_IMPORTED_MODULE_7__.readFile)(configPath);
-            case 8:
+            case 7:
               configContent = _context2.sent;
               this.appConfig = JSON.parse(configContent);
               // 3. 设置状态栏的颜色模式
@@ -757,21 +796,24 @@ var MiniAppSandbox = /*#__PURE__*/function () {
               this.updateTargetPageColorStyle(entryPagePath);
               // 4. 创建通信桥 Bridge
               pageConfig = this.appConfig.modules[entryPagePath];
-              _context2.next = 15;
+              _context2.next = 14;
               return this.createBridge({
                 jscore: this.jscore,
                 isRoot: true,
                 appId: this.appInfo.appId,
+                pagePage: entryPagePath,
+                query: this.appInfo.query,
+                scene: this.appInfo.scene,
                 configInfo: (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePageConfig)(this.appConfig.app, pageConfig)
               });
-            case 15:
+            case 14:
               entryPageBridge = _context2.sent;
               this.bridgeList.push(entryPageBridge);
               // 5. 触发应用初始化逻辑
               entryPageBridge.start();
               // 6. 隐藏初始化loading动画
               this.hiddenLaunchScreen();
-            case 19:
+            case 18:
             case "end":
               return _context2.stop();
           }
@@ -815,12 +857,18 @@ var MiniAppSandbox = /*#__PURE__*/function () {
   }, {
     key: "onPresentIn",
     value: function onPresentIn() {
-      console.log('小程序容器: onPresentIn');
+      var currentBridge = this.bridgeList[this.bridgeList.length - 1];
+      if (currentBridge) {
+        currentBridge.appShow();
+      }
     }
   }, {
     key: "onPresentOut",
     value: function onPresentOut() {
-      console.log('小程序容器: onPresentOut');
+      var currentBridge = this.bridgeList[this.bridgeList.length - 1];
+      if (currentBridge) {
+        currentBridge.appHide();
+      }
     }
 
     // 设置指定页面状态栏的颜色
