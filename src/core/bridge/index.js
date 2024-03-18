@@ -117,6 +117,8 @@ export class Bridge {
       type: 'setInitialData',
       body: {
         initialData,
+        bridgeId: this.id,
+        pagePath: this.opts.pagePath,
       },
     });
   }

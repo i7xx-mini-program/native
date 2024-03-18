@@ -2,7 +2,7 @@
 Page({
   path: 'pages/home/index',
   render: new Function(
-    `with(this){return _c('ui-view',{staticClass:"home",attrs:{"bindtap":"viewTap"}},[_v("\\n\\t  "+_s(text)+"\\n\\t")])}`
+    `with(this){return _c('ui-view',{staticClass:"home"},[_v("\\n\\t  "+_s(text)+"\\n\\t")])}`
   ),
   usingComponents: {},
 });

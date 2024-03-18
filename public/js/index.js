@@ -565,7 +565,9 @@ var Bridge = /*#__PURE__*/function () {
       this.webView.postMessage({
         type: 'setInitialData',
         body: {
-          initialData: initialData
+          initialData: initialData,
+          bridgeId: this.id,
+          pagePath: this.opts.pagePath
         }
       });
     }
