@@ -22,6 +22,14 @@ export class Bridge {
         this.status++;
         this.createApp();
         break;
+      case 'appIsCreated':
+        this.status++;
+        this.notifyMarkInitialData();
+        break;
+      case 'initialDataIsReady':
+        this.status++;
+        this.setInitialData(msg);
+        break;
     }
   }
 
@@ -34,6 +42,16 @@ export class Bridge {
         this.createApp();
         break;
     }
+  }
+
+  notifyMarkInitialData() {
+    this.jscore.postMessage({
+      type: 'markPageInitialData',
+      body: {
+        bridgeId: this.id,
+        pagePath: this.opts.pagePath,
+      },
+    });
   }
 
   start() {
@@ -90,6 +108,16 @@ export class Bridge {
         resolve(webView);
       });
       this.parent.webViewContainer.appendChild(webView.el);
+    });
+  }
+
+  setInitialData(msg) {
+    const { initialData } = msg.body;
+    this.webView.postMessage({
+      type: 'setInitialData',
+      body: {
+        initialData,
+      },
     });
   }
 

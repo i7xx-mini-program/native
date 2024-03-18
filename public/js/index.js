@@ -445,6 +445,14 @@ var Bridge = /*#__PURE__*/function () {
           this.status++;
           this.createApp();
           break;
+        case 'appIsCreated':
+          this.status++;
+          this.notifyMarkInitialData();
+          break;
+        case 'initialDataIsReady':
+          this.status++;
+          this.setInitialData(msg);
+          break;
       }
     }
   }, {
@@ -457,6 +465,17 @@ var Bridge = /*#__PURE__*/function () {
           this.createApp();
           break;
       }
+    }
+  }, {
+    key: "notifyMarkInitialData",
+    value: function notifyMarkInitialData() {
+      this.jscore.postMessage({
+        type: 'markPageInitialData',
+        body: {
+          bridgeId: this.id,
+          pagePath: this.opts.pagePath
+        }
+      });
     }
   }, {
     key: "start",
@@ -537,6 +556,17 @@ var Bridge = /*#__PURE__*/function () {
           resolve(webView);
         });
         _this.parent.webViewContainer.appendChild(webView.el);
+      });
+    }
+  }, {
+    key: "setInitialData",
+    value: function setInitialData(msg) {
+      var initialData = msg.body.initialData;
+      this.webView.postMessage({
+        type: 'setInitialData',
+        body: {
+          initialData: initialData
+        }
       });
     }
   }, {
@@ -801,7 +831,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
                 jscore: this.jscore,
                 isRoot: true,
                 appId: this.appInfo.appId,
-                pagePage: entryPagePath,
+                pagePath: entryPagePath,
                 query: this.appInfo.query,
                 scene: this.appInfo.scene,
                 configInfo: (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePageConfig)(this.appConfig.app, pageConfig)

@@ -47,7 +47,7 @@ export class MiniAppSandbox {
       jscore: this.jscore,
       isRoot: true,
       appId: this.appInfo.appId,
-      pagePage: entryPagePath,
+      pagePath: entryPagePath,
       query: this.appInfo.query,
       scene: this.appInfo.scene,
       configInfo: mergePageConfig(this.appConfig.app, pageConfig),
