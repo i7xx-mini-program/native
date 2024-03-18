@@ -34,6 +34,7 @@ Page(
     },
     onUnload: function () {
       // 页面销毁时执行
+      console.log('抖音首页 onUnload');
     },
     onPageScroll: function (opts) {
       // 页面滚动时执行

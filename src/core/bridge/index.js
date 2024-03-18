@@ -41,7 +41,47 @@ export class Bridge {
         this.status++;
         this.createApp();
         break;
+      case 'moduleCreated':
+        this.uiInstanceCreated(msg.body);
+        break;
+      case 'moduleMounted':
+        this.uiInstanceMounted(msg.body);
+        break;
+
+      case 'pageScroll':
+        this.pageScroll(msg.body);
+        break;
     }
+  }
+
+  pageScroll(msg) {
+    this.jscore.postMessage({
+      type: 'pageScroll',
+      body: msg,
+    });
+  }
+
+  uiInstanceMounted(msg) {
+    const { id } = msg;
+    this.jscore.postMessage({
+      type: 'moduleMounted',
+      body: {
+        id,
+      },
+    });
+  }
+
+  uiInstanceCreated(msg) {
+    const { id, path } = msg;
+    this.jscore.postMessage({
+      type: 'createInstance',
+      body: {
+        id,
+        path,
+        bridgeId: this.id,
+        query: this.opts.query,
+      },
+    });
   }
 
   notifyMarkInitialData() {
@@ -89,6 +129,30 @@ export class Bridge {
     this.jscore.postMessage({
       type: 'appHide',
       body: {},
+    });
+  }
+
+  pageShow() {
+    if (this.status < 2) {
+      return;
+    }
+    this.jscore.postMessage({
+      type: 'pageShow',
+      body: {
+        bridgeId: this.id,
+      },
+    });
+  }
+
+  pageHide() {
+    if (this.status < 2) {
+      return;
+    }
+    this.jscore.postMessage({
+      type: 'pageHide',
+      body: {
+        bridgeId: this.id,
+      },
     });
   }
 

@@ -74,6 +74,7 @@ export class MiniAppSandbox {
     const currentBridge = this.bridgeList[this.bridgeList.length - 1];
     if (currentBridge) {
       currentBridge.appShow();
+      currentBridge.pageShow();
     }
   }
 
@@ -81,6 +82,7 @@ export class MiniAppSandbox {
     const currentBridge = this.bridgeList[this.bridgeList.length - 1];
     if (currentBridge) {
       currentBridge.appHide();
+      currentBridge.pageHide();
     }
   }
 

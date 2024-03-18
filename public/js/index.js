@@ -464,7 +464,50 @@ var Bridge = /*#__PURE__*/function () {
           this.status++;
           this.createApp();
           break;
+        case 'moduleCreated':
+          this.uiInstanceCreated(msg.body);
+          break;
+        case 'moduleMounted':
+          this.uiInstanceMounted(msg.body);
+          break;
+        case 'pageScroll':
+          this.pageScroll(msg.body);
+          break;
       }
+    }
+  }, {
+    key: "pageScroll",
+    value: function pageScroll(msg) {
+      this.jscore.postMessage({
+        type: 'pageScroll',
+        body: msg
+      });
+    }
+  }, {
+    key: "uiInstanceMounted",
+    value: function uiInstanceMounted(msg) {
+      var id = msg.id;
+      this.jscore.postMessage({
+        type: 'moduleMounted',
+        body: {
+          id: id
+        }
+      });
+    }
+  }, {
+    key: "uiInstanceCreated",
+    value: function uiInstanceCreated(msg) {
+      var id = msg.id,
+        path = msg.path;
+      this.jscore.postMessage({
+        type: 'createInstance',
+        body: {
+          id: id,
+          path: path,
+          bridgeId: this.id,
+          query: this.opts.query
+        }
+      });
     }
   }, {
     key: "notifyMarkInitialData",
@@ -516,6 +559,32 @@ var Bridge = /*#__PURE__*/function () {
       this.jscore.postMessage({
         type: 'appHide',
         body: {}
+      });
+    }
+  }, {
+    key: "pageShow",
+    value: function pageShow() {
+      if (this.status < 2) {
+        return;
+      }
+      this.jscore.postMessage({
+        type: 'pageShow',
+        body: {
+          bridgeId: this.id
+        }
+      });
+    }
+  }, {
+    key: "pageHide",
+    value: function pageHide() {
+      if (this.status < 2) {
+        return;
+      }
+      this.jscore.postMessage({
+        type: 'pageHide',
+        body: {
+          bridgeId: this.id
+        }
       });
     }
   }, {
@@ -892,6 +961,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
       var currentBridge = this.bridgeList[this.bridgeList.length - 1];
       if (currentBridge) {
         currentBridge.appShow();
+        currentBridge.pageShow();
       }
     }
   }, {
@@ -900,6 +970,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
       var currentBridge = this.bridgeList[this.bridgeList.length - 1];
       if (currentBridge) {
         currentBridge.appHide();
+        currentBridge.pageHide();
       }
     }
 
