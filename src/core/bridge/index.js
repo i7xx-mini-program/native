@@ -30,11 +30,14 @@ export class Bridge {
         this.status++;
         this.setInitialData(msg);
         break;
+      case 'updateModule':
+        this.updateModule(msg);
+        break;
     }
   }
 
   UIMessageHandle(msg) {
-    const { type } = msg;
+    const { type, body } = msg;
 
     switch (type) {
       case 'uiResourceLoaded':
@@ -42,16 +45,36 @@ export class Bridge {
         this.createApp();
         break;
       case 'moduleCreated':
-        this.uiInstanceCreated(msg.body);
+        this.uiInstanceCreated(body);
         break;
       case 'moduleMounted':
-        this.uiInstanceMounted(msg.body);
+        this.uiInstanceMounted(body);
         break;
-
       case 'pageScroll':
-        this.pageScroll(msg.body);
+        this.pageScroll(body);
+        break;
+      case 'triggerEvent':
+        this.triggerEvent(body);
         break;
     }
+  }
+
+  updateModule(msg) {
+    const { id, data } = msg.body;
+    this.webView.postMessage({
+      type: 'updateModule',
+      body: {
+        id,
+        data,
+      },
+    });
+  }
+
+  triggerEvent(msg) {
+    this.jscore.postMessage({
+      type: 'triggerEvent',
+      body: msg,
+    });
   }
 
   pageScroll(msg) {

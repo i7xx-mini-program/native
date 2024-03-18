@@ -453,27 +453,56 @@ var Bridge = /*#__PURE__*/function () {
           this.status++;
           this.setInitialData(msg);
           break;
+        case 'updateModule':
+          this.updateModule(msg);
+          break;
       }
     }
   }, {
     key: "UIMessageHandle",
     value: function UIMessageHandle(msg) {
-      var type = msg.type;
+      var type = msg.type,
+        body = msg.body;
       switch (type) {
         case 'uiResourceLoaded':
           this.status++;
           this.createApp();
           break;
         case 'moduleCreated':
-          this.uiInstanceCreated(msg.body);
+          this.uiInstanceCreated(body);
           break;
         case 'moduleMounted':
-          this.uiInstanceMounted(msg.body);
+          this.uiInstanceMounted(body);
           break;
         case 'pageScroll':
-          this.pageScroll(msg.body);
+          this.pageScroll(body);
+          break;
+        case 'triggerEvent':
+          this.triggerEvent(body);
           break;
       }
+    }
+  }, {
+    key: "updateModule",
+    value: function updateModule(msg) {
+      var _msg$body = msg.body,
+        id = _msg$body.id,
+        data = _msg$body.data;
+      this.webView.postMessage({
+        type: 'updateModule',
+        body: {
+          id: id,
+          data: data
+        }
+      });
+    }
+  }, {
+    key: "triggerEvent",
+    value: function triggerEvent(msg) {
+      this.jscore.postMessage({
+        type: 'triggerEvent',
+        body: msg
+      });
     }
   }, {
     key: "pageScroll",
