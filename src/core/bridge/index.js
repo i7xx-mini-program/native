@@ -123,6 +123,7 @@ export class Bridge {
       type: 'loadResource',
       body: {
         appId: this.opts.appId,
+        pages: this.opts.pages,
       },
     });
     // 通知逻辑线程加载资源
@@ -131,6 +132,7 @@ export class Bridge {
       body: {
         appId: this.opts.appId,
         bridgeId: this.id,
+        pages: this.opts.pages,
       },
     });
   }

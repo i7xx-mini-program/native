@@ -9,7 +9,7 @@ export class JSCore {
 
   async init() {
     // wx App Page
-    const jsContent = await fetch('http://localhost:3100/logic/core.js');
+    const jsContent = await fetch('http://127.0.0.1:3100/logic/core.js');
     const jsBob = await jsContent.blob();
     const url = window.URL.createObjectURL(jsBob);
 

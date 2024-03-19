@@ -50,6 +50,7 @@ export class MiniAppSandbox {
       pagePath: entryPagePath,
       query: this.appInfo.query,
       scene: this.appInfo.scene,
+      pages: this.appConfig.app.pages,
       configInfo: mergePageConfig(this.appConfig.app, pageConfig),
     });
     this.bridgeList.push(entryPageBridge);

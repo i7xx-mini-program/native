@@ -1,6 +1,17 @@
-.home {
-  font-size: 30px;
-  height: 2000px;
-  border: 1px solid red;
-  width: 200px;
+.container {
+  background-color: #ddd;
 }
+
+.home[data-v-I7kFFEpx5b] {
+  color: red;
+  font-size: 40rem;
+  -webkit-transform: rotate(30deg);
+     -moz-transform: rotate(30deg);
+      -ms-transform: rotate(30deg);
+          transform: rotate(30deg);
+}
+
+.detail[data-v-nUaJ2TNKKT] {
+  color: red;
+}
+

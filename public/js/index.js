@@ -556,7 +556,8 @@ var Bridge = /*#__PURE__*/function () {
       this.webView.postMessage({
         type: 'loadResource',
         body: {
-          appId: this.opts.appId
+          appId: this.opts.appId,
+          pages: this.opts.pages
         }
       });
       // 通知逻辑线程加载资源
@@ -564,7 +565,8 @@ var Bridge = /*#__PURE__*/function () {
         type: 'loadResource',
         body: {
           appId: this.opts.appId,
-          bridgeId: this.id
+          bridgeId: this.id,
+          pages: this.opts.pages
         }
       });
     }
@@ -799,7 +801,7 @@ var JSCore = /*#__PURE__*/function () {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return fetch('http://localhost:3100/logic/core.js');
+              return fetch('http://127.0.0.1:3100/logic/core.js');
             case 2:
               jsContent = _context.sent;
               _context.next = 5;
@@ -934,6 +936,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
                 pagePath: entryPagePath,
                 query: this.appInfo.query,
                 scene: this.appInfo.scene,
+                pages: this.appConfig.app.pages,
                 configInfo: (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePageConfig)(this.appConfig.app, pageConfig)
               });
             case 14:
