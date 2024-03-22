@@ -137,6 +137,18 @@ export class Bridge {
     });
   }
 
+  startWithoutLogic() {
+    this.status++;
+    // 发送通知给webview，加载页面模板资源
+    this.webView.postMessage({
+      type: 'loadResource',
+      body: {
+        appId: this.opts.appId,
+        pages: this.opts.pages,
+      },
+    });
+  }
+
   appShow() {
     if (this.status < 2) {
       return;

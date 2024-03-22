@@ -101,9 +101,11 @@
   <body>
     <div id="root"></div>
     <script>
-      window.addEventListener('message', (msg) => {
-        console.log(msg);
-      });
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+      const rootFontSize = viewportWidth / 750;
+      const rootTag = document.querySelector('html');
+
+      rootTag.style.fontSize = rootFontSize + 'px';
     </script>
   </body>
 </html>

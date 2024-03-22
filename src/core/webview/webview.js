@@ -13,6 +13,7 @@ export class WebView {
     this.setInitialStyle();
     this.iframe = this.el.querySelector('.wx-native-webview__window');
     this.iframe.name = this.id;
+    this.opts.isRoot || this.el.classList.add('wx-native-view--before-enter');
     this.event = new mitt();
   }
 

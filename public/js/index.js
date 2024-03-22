@@ -571,6 +571,19 @@ var Bridge = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "startWithoutLogic",
+    value: function startWithoutLogic() {
+      this.status++;
+      // 发送通知给webview，加载页面模板资源
+      this.webView.postMessage({
+        type: 'loadResource',
+        body: {
+          appId: this.opts.appId,
+          pages: this.opts.pages
+        }
+      });
+    }
+  }, {
     key: "appShow",
     value: function appShow() {
       if (this.status < 2) {
@@ -886,9 +899,12 @@ var MiniAppSandbox = /*#__PURE__*/function () {
     this.parent = null;
     this.appConfig = null;
     this.bridgeList = [];
+    this.bridges = {};
     this.jscore = new _native_core_jscore__WEBPACK_IMPORTED_MODULE_11__.JSCore();
     this.jscore.parent = this;
     this.webViewContainer = null;
+    // webView动画
+    this.webviewAnimaEnd = true;
     this.el = document.createElement('div');
     this.el.classList.add('wx-native-view');
     this.jscore.addEventListener('message', _babel_runtime_corejs3_core_js_stable_instance_bind__WEBPACK_IMPORTED_MODULE_4___default()(_context = this.jscoreMessageHandler).call(_context, this));
@@ -942,11 +958,12 @@ var MiniAppSandbox = /*#__PURE__*/function () {
             case 14:
               entryPageBridge = _context2.sent;
               this.bridgeList.push(entryPageBridge);
+              this.bridges[entryPageBridge.id] = entryPageBridge;
               // 5. 触发应用初始化逻辑
               entryPageBridge.start();
               // 6. 隐藏初始化loading动画
               this.hiddenLaunchScreen();
-            case 18:
+            case 19:
             case "end":
               return _context2.stop();
           }
@@ -1005,6 +1022,39 @@ var MiniAppSandbox = /*#__PURE__*/function () {
         currentBridge.pageHide();
       }
     }
+  }, {
+    key: "jscoreMessageHandler",
+    value: function jscoreMessageHandler(msg) {
+      var type = msg.type,
+        body = msg.body;
+      if (type !== 'triggerWXApi') {
+        return;
+      }
+      var apiName = body.apiName,
+        params = body.params;
+      this[apiName](params);
+    }
+  }, {
+    key: "navigateTo",
+    value: function navigateTo(params) {
+      var url = params.url;
+      var _queryPath = (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.queryPath)(url),
+        query = _queryPath.query,
+        pagePath = _queryPath.pagePath;
+      this.openPage({
+        pagePath: pagePath,
+        query: query
+      });
+    }
+  }, {
+    key: "bindCloseEvent",
+    value: function bindCloseEvent() {
+      var _this = this;
+      var closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
+      closeBtn.onclick = function () {
+        _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_9__.AppManager.closeApp(_this);
+      };
+    }
 
     // 设置指定页面状态栏的颜色
   }, {
@@ -1046,20 +1096,122 @@ var MiniAppSandbox = /*#__PURE__*/function () {
       }
       this.parent.updateStatusBarColor(color);
     }
+
+    // 小程序内部打开页面
   }, {
-    key: "jscoreMessageHandler",
-    value: function jscoreMessageHandler(msg) {
-      console.log('小程序容器接收逻辑线程到消息：', msg);
-    }
+    key: "openPage",
+    value: function () {
+      var _openPage = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee3(opts) {
+        var pagePath, query, pageConfig, bridge, preBridge, preWebview;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee3$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              if (this.webviewAnimaEnd) {
+                _context4.next = 2;
+                break;
+              }
+              return _context4.abrupt("return");
+            case 2:
+              this.webviewAnimaEnd = false;
+              pagePath = opts.pagePath, query = opts.query;
+              this.updateTargetPageColorStyle(pagePath);
+              pageConfig = this.appConfig.modules[pagePath];
+              _context4.next = 8;
+              return this.createBridge({
+                pagePath: pagePath,
+                query: query,
+                isRoot: false,
+                jscore: this.jscore,
+                appId: this.appInfo.appId,
+                scene: this.appInfo.scene,
+                pages: this.appConfig.app.pages,
+                configInfo: (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePageConfig)(this.appConfig.app, pageConfig)
+              });
+            case 8:
+              bridge = _context4.sent;
+              preBridge = this.bridgeList[this.bridgeList.length - 1];
+              preWebview = preBridge.webView;
+              this.bridgeList.push(bridge);
+              this.bridges[bridge.id] = bridge;
+              bridge.startWithoutLogic();
+
+              // 上一个视图向左动画推出
+              preWebview.el.classList.remove('wx-native-view--instage');
+              preWebview.el.classList.add('wx-native-view--slide-out');
+              preWebview.el.classList.add('wx-native-view--linear-anima');
+              preBridge.pageHide && preBridge.pageHide();
+              bridge.webView.el.style.zIndex = this.bridgeList.length + 1;
+              // 当前视图向左动画推入
+              bridge.webView.el.classList.add('wx-native-view--enter-anima');
+              bridge.webView.el.classList.add('wx-native-view--instage');
+              _context4.next = 23;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.sleep)(540);
+            case 23:
+              this.webviewAnimaEnd = true;
+              preWebview.el.classList.remove('wx-native-view--linear-anima');
+              bridge.webView.el.classList.remove('wx-native-view--before-enter');
+              bridge.webView.el.classList.remove('wx-native-view--enter-anima');
+              bridge.webView.el.classList.remove('wx-native-view--instage');
+            case 28:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee3, this);
+      }));
+      function openPage(_x2) {
+        return _openPage.apply(this, arguments);
+      }
+      return openPage;
+    }() // 小程序内部页面退出
   }, {
-    key: "bindCloseEvent",
-    value: function bindCloseEvent() {
-      var _this = this;
-      var closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
-      closeBtn.onclick = function () {
-        _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_9__.AppManager.closeApp(_this);
-      };
-    }
+    key: "exitPage",
+    value: function () {
+      var _exitPage = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee4() {
+        var currentBridge, preBridge;
+        return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee4$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              if (!(this.bridgeList.length < 2)) {
+                _context5.next = 2;
+                break;
+              }
+              return _context5.abrupt("return");
+            case 2:
+              if (this.webviewAnimaEnd) {
+                _context5.next = 4;
+                break;
+              }
+              return _context5.abrupt("return");
+            case 4:
+              this.webviewAnimaEnd = false;
+              currentBridge = this.bridgeList.pop();
+              preBridge = this.bridgeList[this.bridgeList.length - 1];
+              this.updateTargetPageColorStyle(preBridge.opts.pagePath);
+              currentBridge.webView.el.classList.add('wx-native-view--before-enter');
+              currentBridge.webView.el.classList.add('wx-native-view--enter-anima');
+              currentBridge.destroy && currentBridge.destroy();
+              preBridge.webView.el.classList.remove('wx-native-view--slide-out');
+              preBridge.webView.el.classList.add('wx-native-view--instage');
+              preBridge.webView.el.classList.add('wx-native-view--enter-anima');
+              preBridge.pageShow && preBridge.pageShow();
+              _context5.next = 17;
+              return (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.sleep)(540);
+            case 17:
+              this.webviewAnimaEnd = true;
+              preBridge.webView.el.classList.remove('wx-native-view--enter-anima');
+              preBridge.webView.el.classList.remove('wx-native-view--instage');
+              currentBridge.webView.el.parentNode.removeChild(currentBridge.webView.el);
+            case 21:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee4, this);
+      }));
+      function exitPage() {
+        return _exitPage.apply(this, arguments);
+      }
+      return exitPage;
+    }()
   }]);
   return MiniAppSandbox;
 }();
@@ -1148,6 +1300,7 @@ var WebView = /*#__PURE__*/function () {
     this.setInitialStyle();
     this.iframe = this.el.querySelector('.wx-native-webview__window');
     this.iframe.name = this.id;
+    this.opts.isRoot || this.el.classList.add('wx-native-view--before-enter');
     this.event = new mitt__WEBPACK_IMPORTED_MODULE_5__["default"]();
   }
   (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(WebView, [{

@@ -30,7 +30,7 @@
   },
   viewTap: function (opts) {
     wx.navigateTo({
-      url: '/pages/detail/index?id=123'
+      url: 'pages/detail/index?id=123'
     });
   }
 }, {

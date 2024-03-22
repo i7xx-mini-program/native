@@ -1,17 +1,14 @@
-.container {
-  background-color: #ddd;
+#root {
+  font-size: 32rem;
 }
 
-.home[data-v-I7kFFEpx5b] {
+.home[data-v-ljwPbzLPaJ] {
   color: red;
   font-size: 40rem;
-  -webkit-transform: rotate(30deg);
-     -moz-transform: rotate(30deg);
-      -ms-transform: rotate(30deg);
-          transform: rotate(30deg);
 }
 
-.detail[data-v-nUaJ2TNKKT] {
+.detail[data-v-5vUI7oXUcA] {
   color: red;
+  background: green;
 }
 

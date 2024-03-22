@@ -23,6 +23,9 @@
       "usingComponents": {}
     },
     "pages/detail/index": {
+      "navigationBarBackgroundColor": "#ddd",
+      "navigationBarTextStyle": "black",
+      "navigationBarTitleText": "详情页",
       "backgroundColor": "#fff",
       "usingComponents": {}
     }

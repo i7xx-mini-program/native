@@ -1,7 +1,7 @@
 import './style.scss';
 import tpl from './tpl.html';
 import { readFile, mergePageConfig } from './util';
-import { sleep } from '@native/utils/util';
+import { sleep, queryPath } from '@native/utils/util';
 import { AppManager } from '@native/core/appManager/appManager';
 import { Bridge } from '@native/core/bridge';
 import { JSCore } from '@native/core/jscore';
@@ -12,9 +12,12 @@ export class MiniAppSandbox {
     this.parent = null;
     this.appConfig = null;
     this.bridgeList = [];
+    this.bridges = {};
     this.jscore = new JSCore();
     this.jscore.parent = this;
     this.webViewContainer = null;
+    // webView动画
+    this.webviewAnimaEnd = true;
 
     this.el = document.createElement('div');
     this.el.classList.add('wx-native-view');
@@ -54,6 +57,7 @@ export class MiniAppSandbox {
       configInfo: mergePageConfig(this.appConfig.app, pageConfig),
     });
     this.bridgeList.push(entryPageBridge);
+    this.bridges[entryPageBridge.id] = entryPageBridge;
     // 5. 触发应用初始化逻辑
     entryPageBridge.start();
     // 6. 隐藏初始化loading动画
@@ -85,6 +89,29 @@ export class MiniAppSandbox {
       currentBridge.appHide();
       currentBridge.pageHide();
     }
+  }
+
+  jscoreMessageHandler(msg) {
+    const { type, body } = msg;
+    if (type !== 'triggerWXApi') {
+      return;
+    }
+    const { apiName, params } = body;
+    this[apiName](params);
+  }
+
+  navigateTo(params) {
+    const { url } = params;
+    const { query, pagePath } = queryPath(url);
+    this.openPage({ pagePath, query });
+  }
+
+  bindCloseEvent() {
+    const closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
+
+    closeBtn.onclick = () => {
+      AppManager.closeApp(this);
+    };
   }
 
   // 设置指定页面状态栏的颜色
@@ -128,15 +155,80 @@ export class MiniAppSandbox {
     this.parent.updateStatusBarColor(color);
   }
 
-  jscoreMessageHandler(msg) {
-    console.log('小程序容器接收逻辑线程到消息：', msg);
+  // 小程序内部打开页面
+  async openPage(opts) {
+    if (!this.webviewAnimaEnd) {
+      return;
+    }
+    this.webviewAnimaEnd = false;
+
+    const { pagePath, query } = opts;
+
+    this.updateTargetPageColorStyle(pagePath);
+
+    const pageConfig = this.appConfig.modules[pagePath];
+    const bridge = await this.createBridge({
+      pagePath,
+      query,
+      isRoot: false,
+      jscore: this.jscore,
+      appId: this.appInfo.appId,
+      scene: this.appInfo.scene,
+      pages: this.appConfig.app.pages,
+      configInfo: mergePageConfig(this.appConfig.app, pageConfig),
+    });
+    const preBridge = this.bridgeList[this.bridgeList.length - 1];
+    const preWebview = preBridge.webView;
+
+    this.bridgeList.push(bridge);
+    this.bridges[bridge.id] = bridge;
+    bridge.startWithoutLogic();
+
+    // 上一个视图向左动画推出
+    preWebview.el.classList.remove('wx-native-view--instage');
+    preWebview.el.classList.add('wx-native-view--slide-out');
+    preWebview.el.classList.add('wx-native-view--linear-anima');
+    preBridge.pageHide && preBridge.pageHide();
+    bridge.webView.el.style.zIndex = this.bridgeList.length + 1;
+    // 当前视图向左动画推入
+    bridge.webView.el.classList.add('wx-native-view--enter-anima');
+    bridge.webView.el.classList.add('wx-native-view--instage');
+
+    await sleep(540);
+    this.webviewAnimaEnd = true;
+    preWebview.el.classList.remove('wx-native-view--linear-anima');
+    bridge.webView.el.classList.remove('wx-native-view--before-enter');
+    bridge.webView.el.classList.remove('wx-native-view--enter-anima');
+    bridge.webView.el.classList.remove('wx-native-view--instage');
   }
 
-  bindCloseEvent() {
-    const closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
+  // 小程序内部页面退出
+  async exitPage() {
+    if (this.bridgeList.length < 2) {
+      return;
+    }
 
-    closeBtn.onclick = () => {
-      AppManager.closeApp(this);
-    };
+    if (!this.webviewAnimaEnd) {
+      return;
+    }
+
+    this.webviewAnimaEnd = false;
+
+    const currentBridge = this.bridgeList.pop();
+    const preBridge = this.bridgeList[this.bridgeList.length - 1];
+
+    this.updateTargetPageColorStyle(preBridge.opts.pagePath);
+    currentBridge.webView.el.classList.add('wx-native-view--before-enter');
+    currentBridge.webView.el.classList.add('wx-native-view--enter-anima');
+    currentBridge.destroy && currentBridge.destroy();
+    preBridge.webView.el.classList.remove('wx-native-view--slide-out');
+    preBridge.webView.el.classList.add('wx-native-view--instage');
+    preBridge.webView.el.classList.add('wx-native-view--enter-anima');
+    preBridge.pageShow && preBridge.pageShow();
+    await sleep(540);
+    this.webviewAnimaEnd = true;
+    preBridge.webView.el.classList.remove('wx-native-view--enter-anima');
+    preBridge.webView.el.classList.remove('wx-native-view--instage');
+    currentBridge.webView.el.parentNode.removeChild(currentBridge.webView.el);
   }
 }
