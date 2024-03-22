@@ -100,10 +100,28 @@ export class MiniAppSandbox {
     this[apiName](params);
   }
 
+  createCallback(callbackId) {
+    const self = this;
+    return function (...args) {
+      self.jscore.postMessage({
+        type: 'triggerCallback',
+        body: {
+          callbackId,
+          args,
+        },
+      });
+    };
+  }
+
   navigateTo(params) {
-    const { url } = params;
+    const { url, success } = params;
+    const successCallback = this.createCallback(success);
     const { query, pagePath } = queryPath(url);
-    this.openPage({ pagePath, query });
+    this.openPage({
+      pagePath,
+      query,
+      onSuccess: successCallback,
+    });
   }
 
   navigateBack() {
@@ -166,7 +184,7 @@ export class MiniAppSandbox {
     }
     this.webviewAnimaEnd = false;
 
-    const { pagePath, query } = opts;
+    const { pagePath, query, onSuccess } = opts;
 
     this.updateTargetPageColorStyle(pagePath);
 
@@ -204,6 +222,7 @@ export class MiniAppSandbox {
     bridge.webView.el.classList.remove('wx-native-view--before-enter');
     bridge.webView.el.classList.remove('wx-native-view--enter-anima');
     bridge.webView.el.classList.remove('wx-native-view--instage');
+    onSuccess && onSuccess();
   }
 
   // 小程序内部页面退出
