@@ -73,6 +73,13 @@
       appId: 'meituan',
       path: 'pages/home/index?id=123'
     });
+  },
+  showToast() {
+    wx.showToast({
+      title: '点赞成功',
+      icon: 'success',
+      duration: 2000
+    });
   }
 }, {
   path: "pages/home/index"

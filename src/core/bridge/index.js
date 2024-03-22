@@ -33,6 +33,9 @@ export class Bridge {
       case 'updateModule':
         this.updateModule(msg);
         break;
+      case 'showToast':
+        this.showToast(msg);
+        break;
     }
   }
 
@@ -57,6 +60,14 @@ export class Bridge {
         this.triggerEvent(body);
         break;
     }
+  }
+
+  showToast(msg) {
+    const { params } = msg.body;
+    this.webView.postMessage({
+      type: 'showToast',
+      body: { ...params },
+    });
   }
 
   updateModule(msg) {

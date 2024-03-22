@@ -11,6 +11,9 @@
       _vm.show
         ? _c("ui-view", { staticClass: "text" }, [_vm._v(_vm._s(_vm.text))])
         : _vm._e(),
+      _c("ui-text", { attrs: { "user-select": true } }, [
+        _vm._v("这是文本UI展示的内容"),
+      ]),
       _c("ui-view", { staticClass: "btn", attrs: { bindtap: "hide" } }, [
         _vm._v("隐藏"),
       ]),
@@ -29,6 +32,15 @@
       _c("ui-view", { staticClass: "btn", attrs: { bindtap: "openMeiTuan" } }, [
         _vm._v("打开美团小程序"),
       ]),
+      _c("ui-view", { staticClass: "btn", attrs: { bindtap: "showToast" } }, [
+        _vm._v("显示Toast"),
+      ]),
+      _c("ui-image", {
+        staticClass: "image",
+        attrs: {
+          src: "https://p9-passport.byteacctimg.com/img/mosaic-legacy/3793/3114521287~90x90.awebp",
+        },
+      }),
       _vm._l(_vm.list, function (item, index) {
         return _c(
           "ui-view",
@@ -57,7 +69,7 @@ render._withStripped = true
         path: 'pages/home/index',
         render: render,
         usingComponents: {},
-        scopeId: 'data-v-EeeTM8MtwQ'
+        scopeId: 'data-v-K7ubG8tTCq'
       });
     })
   
@@ -79,7 +91,7 @@ render._withStripped = true
         path: 'pages/detail/index',
         render: render,
         usingComponents: {},
-        scopeId: 'data-v-s6veVfIXZ9'
+        scopeId: 'data-v-3uoWEMuTRG'
       });
     })
   
