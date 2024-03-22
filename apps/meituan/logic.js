@@ -3,7 +3,7 @@
           Page({
   data: {
     show: true,
-    text: '抖音首页',
+    text: '美团首页',
     list: [{
       key: 1,
       message: '这是第一条消息'
@@ -15,27 +15,27 @@
   },
   onLoad: function (options) {
     // 页面创建时执行
-    console.log('抖音首页 page onLoad: ', options);
+    console.log('美团首页 page onLoad: ', options);
   },
   onShow: function () {
     // 页面出现在前台时执行
-    console.log('抖音首页 page onShow');
+    console.log('美团首页 page onShow');
   },
   onReady: function () {
     // 页面首次渲染完毕时执行
-    console.log('抖音首页 page onReady');
+    console.log('美团首页 page onReady');
   },
   onHide: function () {
     // 页面从前台变为后台时执行
-    console.log('抖音首页 onHide');
+    console.log('美团首页 onHide');
   },
   onUnload: function () {
     // 页面销毁时执行
-    console.log('抖音首页 onUnload');
+    console.log('美团首页 onUnload');
   },
   onPageScroll: function (opts) {
     // 页面滚动时执行
-    console.log('抖音首页scroll:', opts);
+    console.log('美团首页scroll:', opts);
   },
   goDetail: function (opts) {
     wx.navigateTo({
@@ -70,7 +70,7 @@
   },
   openMeiTuan() {
     wx.navigateToMiniProgram({
-      appId: 'meituan',
+      appId: 'douyin',
       path: 'pages/home/index?id=123'
     });
   }

@@ -57,7 +57,7 @@ render._withStripped = true
         path: 'pages/home/index',
         render: render,
         usingComponents: {},
-        scopeId: 'data-v-EeeTM8MtwQ'
+        scopeId: 'data-v-g86a90UuSY'
       });
     })
   
@@ -79,7 +79,7 @@ render._withStripped = true
         path: 'pages/detail/index',
         render: render,
         usingComponents: {},
-        scopeId: 'data-v-s6veVfIXZ9'
+        scopeId: 'data-v-0SlQwtctIY'
       });
     })
   

@@ -100,6 +100,18 @@ export class MiniAppSandbox {
     this[apiName](params);
   }
 
+  navigateToMiniProgram(opts) {
+    const { appId, path } = opts;
+    AppManager.openApp(
+      {
+        appId,
+        path,
+        scene: 1037,
+      },
+      this.parent
+    );
+  }
+
   createCallback(callbackId) {
     const self = this;
     return function (...args) {

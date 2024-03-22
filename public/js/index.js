@@ -1048,15 +1048,46 @@ var MiniAppSandbox = /*#__PURE__*/function () {
       this[apiName](params);
     }
   }, {
+    key: "navigateToMiniProgram",
+    value: function navigateToMiniProgram(opts) {
+      var appId = opts.appId,
+        path = opts.path;
+      _native_core_appManager_appManager__WEBPACK_IMPORTED_MODULE_9__.AppManager.openApp({
+        appId: appId,
+        path: path,
+        scene: 1037
+      }, this.parent);
+    }
+  }, {
+    key: "createCallback",
+    value: function createCallback(callbackId) {
+      var self = this;
+      return function () {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+        self.jscore.postMessage({
+          type: 'triggerCallback',
+          body: {
+            callbackId: callbackId,
+            args: args
+          }
+        });
+      };
+    }
+  }, {
     key: "navigateTo",
     value: function navigateTo(params) {
-      var url = params.url;
+      var url = params.url,
+        success = params.success;
+      var successCallback = this.createCallback(success);
       var _queryPath = (0,_native_utils_util__WEBPACK_IMPORTED_MODULE_8__.queryPath)(url),
         query = _queryPath.query,
         pagePath = _queryPath.pagePath;
       this.openPage({
         pagePath: pagePath,
-        query: query
+        query: query,
+        onSuccess: successCallback
       });
     }
   }, {
@@ -1120,7 +1151,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
     key: "openPage",
     value: function () {
       var _openPage = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee3(opts) {
-        var pagePath, query, pageConfig, bridge, preBridge, preWebview;
+        var pagePath, query, onSuccess, pageConfig, bridge, preBridge, preWebview;
         return _babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee3$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
@@ -1131,7 +1162,7 @@ var MiniAppSandbox = /*#__PURE__*/function () {
               return _context4.abrupt("return");
             case 2:
               this.webviewAnimaEnd = false;
-              pagePath = opts.pagePath, query = opts.query;
+              pagePath = opts.pagePath, query = opts.query, onSuccess = opts.onSuccess;
               this.updateTargetPageColorStyle(pagePath);
               pageConfig = this.appConfig.modules[pagePath];
               _context4.next = 8;
@@ -1170,7 +1201,8 @@ var MiniAppSandbox = /*#__PURE__*/function () {
               bridge.webView.el.classList.remove('wx-native-view--before-enter');
               bridge.webView.el.classList.remove('wx-native-view--enter-anima');
               bridge.webView.el.classList.remove('wx-native-view--instage');
-            case 28:
+              onSuccess && onSuccess();
+            case 29:
             case "end":
               return _context4.stop();
           }
