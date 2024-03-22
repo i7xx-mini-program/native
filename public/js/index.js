@@ -632,6 +632,19 @@ var Bridge = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "destroy",
+    value: function destroy() {
+      if (this.status < 2) {
+        return;
+      }
+      this.jscore.postMessage({
+        type: 'pageUnload',
+        body: {
+          bridgeId: this.id
+        }
+      });
+    }
+  }, {
     key: "init",
     value: function () {
       var _init = (0,_babel_runtime_corejs3_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_corejs3_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee() {
@@ -1047,6 +1060,11 @@ var MiniAppSandbox = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "navigateBack",
+    value: function navigateBack() {
+      this.exitPage();
+    }
+  }, {
     key: "bindCloseEvent",
     value: function bindCloseEvent() {
       var _this = this;
@@ -1300,8 +1318,8 @@ var WebView = /*#__PURE__*/function () {
     this.setInitialStyle();
     this.iframe = this.el.querySelector('.wx-native-webview__window');
     this.iframe.name = this.id;
-    this.opts.isRoot || this.el.classList.add('wx-native-view--before-enter');
     this.event = new mitt__WEBPACK_IMPORTED_MODULE_5__["default"]();
+    this.bindBackEvent();
   }
   (0,_babel_runtime_corejs3_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(WebView, [{
     key: "init",
@@ -1332,6 +1350,16 @@ var WebView = /*#__PURE__*/function () {
       return init;
     }()
   }, {
+    key: "bindBackEvent",
+    value: function bindBackEvent() {
+      var _this2 = this;
+      var backBtn = this.el.querySelector('.wx-native-webview__navigation-left-btn');
+      backBtn.addEventListener('click', function () {
+        // 返回上一页
+        _this2.parent.parent.navigateBack();
+      }, false);
+    }
+  }, {
     key: "addEventListener",
     value: function addEventListener(type, handler) {
       this.event.on(type, handler);
@@ -1345,9 +1373,9 @@ var WebView = /*#__PURE__*/function () {
   }, {
     key: "frameLoaded",
     value: function frameLoaded() {
-      var _this2 = this;
+      var _this3 = this;
       return new (_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_3___default())(function (resolve) {
-        _this2.iframe.onload = function () {
+        _this3.iframe.onload = function () {
           resolve();
         };
       });
@@ -1361,6 +1389,7 @@ var WebView = /*#__PURE__*/function () {
       var navigationBar = this.el.querySelector('.wx-native-webview__navigation');
       var leftBtn = this.el.querySelector('.wx-native-webview__navigation-left-btn');
       var root = this.el.querySelector('.wx-native-webview__root');
+      this.opts.isRoot || this.el.classList.add('wx-native-view--before-enter');
       if (this.opts.isRoot) {
         leftBtn.style.display = 'none';
       } else {

@@ -106,6 +106,10 @@ export class MiniAppSandbox {
     this.openPage({ pagePath, query });
   }
 
+  navigateBack() {
+    this.exitPage();
+  }
+
   bindCloseEvent() {
     const closeBtn = this.el.querySelector('.wx-mini-app-navigation__actions-close');
 

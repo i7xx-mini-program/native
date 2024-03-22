@@ -57,13 +57,18 @@
   },
   onHide: function () {
     // 页面从前台变为后台时执行
+    console.log('详情页 page onHide');
   },
   onUnload: function () {
     // 页面销毁时执行
+    console.log('详情页 page onUnload');
   },
   onPageScroll: function (opts) {
     // 页面滚动时执行
     console.log(opts);
+  },
+  goBack() {
+    wx.navigateBack();
   }
 }, {
   path: "pages/detail/index"

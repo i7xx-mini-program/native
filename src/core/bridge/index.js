@@ -192,6 +192,17 @@ export class Bridge {
       },
     });
   }
+  destroy() {
+    if (this.status < 2) {
+      return;
+    }
+    this.jscore.postMessage({
+      type: 'pageUnload',
+      body: {
+        bridgeId: this.id,
+      },
+    });
+  }
 
   async init() {
     this.webView = await this.createWebView();

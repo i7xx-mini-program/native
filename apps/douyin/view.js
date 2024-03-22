@@ -15,7 +15,7 @@ render._withStripped = true
         path: 'pages/home/index',
         render: render,
         usingComponents: {},
-        scopeId: 'data-v-ljwPbzLPaJ'
+        scopeId: 'data-v-tiSQ6yKaxH'
       });
     })
   
@@ -24,7 +24,11 @@ render._withStripped = true
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("ui-view", { staticClass: "detail" }, [_vm._v(_vm._s(_vm.text))])
+  return _c(
+    "ui-view",
+    { staticClass: "detail", attrs: { bindtap: "goBack" } },
+    [_vm._v(_vm._s(_vm.text))]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -33,7 +37,7 @@ render._withStripped = true
         path: 'pages/detail/index',
         render: render,
         usingComponents: {},
-        scopeId: 'data-v-5vUI7oXUcA'
+        scopeId: 'data-v-bqs0LrssGa'
       });
     })
   

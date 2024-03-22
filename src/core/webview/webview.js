@@ -13,8 +13,8 @@ export class WebView {
     this.setInitialStyle();
     this.iframe = this.el.querySelector('.wx-native-webview__window');
     this.iframe.name = this.id;
-    this.opts.isRoot || this.el.classList.add('wx-native-view--before-enter');
     this.event = new mitt();
+    this.bindBackEvent();
   }
 
   async init(callback) {
@@ -24,6 +24,18 @@ export class WebView {
       this.event.emit('message', msg);
     };
     callback && callback();
+  }
+
+  bindBackEvent() {
+    const backBtn = this.el.querySelector('.wx-native-webview__navigation-left-btn');
+    backBtn.addEventListener(
+      'click',
+      () => {
+        // 返回上一页
+        this.parent.parent.navigateBack();
+      },
+      false
+    );
   }
 
   addEventListener(type, handler) {
@@ -50,6 +62,7 @@ export class WebView {
     const navigationBar = this.el.querySelector('.wx-native-webview__navigation');
     const leftBtn = this.el.querySelector('.wx-native-webview__navigation-left-btn');
     const root = this.el.querySelector('.wx-native-webview__root');
+    this.opts.isRoot || this.el.classList.add('wx-native-view--before-enter');
 
     if (this.opts.isRoot) {
       leftBtn.style.display = 'none';
